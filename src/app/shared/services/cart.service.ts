@@ -150,6 +150,7 @@ export class CartService {
             cartItemId: item.cartItemId,
             title: item.productName,
             price: item.price,
+            discountedPrice: item.priceAfterDiscount,
             img: item.imageUrl,
             quantity: item.quantity,
             orderQuantity: item.quantity,
@@ -614,7 +615,7 @@ export class CartService {
     let quantity = 0;
 
     products.forEach(item => {
-      const price = item.discount > 0 ? item.price - (item.price * item.discount / 100) : item.price;
+      const price = item.discountedPrice ?? item.price;
       total += price * (item.orderQuantity || 0);
       quantity += item.orderQuantity || 0;
     });

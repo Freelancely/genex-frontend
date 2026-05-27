@@ -295,6 +295,15 @@ export class CheckoutComponent implements OnInit {
     this.payment_name = value;
   }
 
+  get subtotalBeforeDiscount(): number {
+    return this.cartService.getCartProducts()
+      .reduce((sum, item) => sum + (item.price || 0) * (item.orderQuantity || 0), 0);
+  }
+
+  get productDiscountAmount(): number {
+    return Math.max(0, this.subtotalBeforeDiscount - (this.cartService.totalPriceQuantity().total || 0));
+  }
+
   get couponDiscountAmount(): number {
     const subtotal = this.cartService.totalPriceQuantity().total || 0;
     return this.appliedCouponDiscount > 0 ? subtotal * (this.appliedCouponDiscount / 100) : 0;

@@ -196,17 +196,24 @@
                   <!-- item list -->
                   <li *ngFor="let item of cartService.getCartProducts()" class="tp-order-info-list-desc">
                     <p>{{item.title}} <span> x {{item.orderQuantity}}</span></p>
-                    <span *ngIf="item.discount > 0; else noDiscount">
-                      Npr.{{ (item.price - (item.price * item.discount / 100)).toFixed(2) }}
+                    <span *ngIf="item.discountedPrice != null && item.discountedPrice < item.price; else noItemDiscount">
+                      <span class="text-muted text-decoration-line-through me-1">
+                        Npr.{{ (item.price * item.orderQuantity).toFixed(2) }}
+                      </span>
+                      Npr.{{ (item.discountedPrice * item.orderQuantity).toFixed(2) }}
                     </span>
-                    <ng-template #noDiscount>
-                      <span>Npr.{{item.price.toFixed(2)}}</span>
+                    <ng-template #noItemDiscount>
+                      <span>Npr.{{ (item.price * item.orderQuantity).toFixed(2) }}</span>
                     </ng-template>
                   </li>
                   <!-- subtotal -->
                   <li class="tp-order-info-list-subtotal">
                     <span>Subtotal</span>
-                    <span>Npr.{{cartService.totalPriceQuantity().total.toFixed(2)}}</span>
+                    <span>Npr.{{ subtotalBeforeDiscount.toFixed(2) }}</span>
+                  </li>
+                  <li *ngIf="productDiscountAmount > 0" class="tp-order-info-list-subtotal">
+                    <span>Discount</span>
+                    <span>-Npr.{{ productDiscountAmount.toFixed(2) }}</span>
                   </li>
                   <li *ngIf="appliedCouponDiscount > 0" class="tp-order-info-list-subtotal">
                     <span>Coupon ({{ appliedCouponCode }}) {{ appliedCouponDiscount }}% off</span>

@@ -1,0 +1,51 @@
+<form [formGroup]="shopReviewForm" (ngSubmit)="onSubmit()">
+  <div class="tp-product-details-review-form-rating d-flex align-items-center">
+    <p>Your Rating :</p>
+    <div class="tp-product-details-review-form-rating-icon d-flex align-items-center">
+      <span *ngFor="let i of [1,2,3,4,5]"
+            (click)="setStarRating(i)"
+            class="star"
+            [ngClass]="{'star-filled': i <= starCount, 'star-empty': i > starCount}">
+        {{ i <= starCount ? '★' : '☆' }}
+      </span>
+    </div>
+  </div>
+  <div class="tp-product-details-review-input-wrapper">
+    <div class="tp-product-details-review-input-box">
+      <div class="tp-product-details-review-input">
+        <textarea id="review" name="review" placeholder="Write your review here..." formControlName="review"></textarea>
+      </div>
+      <div class="tp-product-details-review-input-title">
+        <label for="review">Your Review</label>
+      </div>
+      <span *ngIf="review?.hasError('required') && (review?.touched || formSubmitted)" class="text-danger">
+        Review is required
+      </span>
+    </div>
+    <div class="tp-product-details-review-input-box">
+      <div class="tp-product-details-review-input">
+        <input name="name" id="name" type="text" placeholder="John doe" formControlName="name">
+      </div>
+      <div class="tp-product-details-review-input-title">
+        <label for="name">Your Name</label>
+      </div>
+      <span *ngIf="name?.hasError('required') && (name?.touched || formSubmitted)" class="text-danger">
+        Name is required
+      </span>
+    </div>
+    <div class="tp-product-details-review-input-box">
+      <div class="tp-product-details-review-input">
+        <input name="email" id="email" type="email" placeholder="genex@gmail.com" formControlName="email">
+      </div>
+      <div class="tp-product-details-review-input-title">
+        <label for="email">Your Email</label>
+      </div>
+      <span *ngIf="(email?.hasError('required') && email?.touched) || (email?.hasError('email') && email?.dirty) || (formSubmitted && !email?.value)" class="text-danger">
+        Email is required and must be a valid email address
+      </span>
+    </div>
+  </div>
+  <div class="tp-product-details-review-btn-wrapper">
+    <button type="submit" class="tp-product-details-review-btn tp-btn">Submit</button>
+  </div>
+</form>

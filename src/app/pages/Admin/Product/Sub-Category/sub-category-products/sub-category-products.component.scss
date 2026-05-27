@@ -1,0 +1,125 @@
+.products-container {
+  padding: 24px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.header-content h1 {
+  color: #1e293b;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.header-content p {
+  color: #64748b;
+  font-size: 16px;
+  margin: 0;
+}
+
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+}
+
+.filters-section {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.attribute-filters {
+  flex: 1;
+  min-width: 200px;
+  label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+  select {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 100%;
+  }
+}
+
+.products-table-container {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.products-table th {
+  background: #f8fafc;
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.products-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.products-table tr:hover {
+  background: #f9fafb;
+}
+
+@media (max-width: 768px) {
+  .products-container {
+    padding: 16px;
+  }
+  .page-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .filters-section {
+    flex-direction: column;
+  }
+}

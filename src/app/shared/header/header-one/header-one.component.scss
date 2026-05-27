@@ -1,0 +1,348 @@
+// ============================================================
+// HEADER COMPONENT STYLES
+// ============================================================
+
+// ----- TOP BAR -----
+.tp-header-top {
+  background: #1a1a2e;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  .tp-header-welcome {
+    gap: 10px;
+
+    span {
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    p {
+      margin: 0;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+      letter-spacing: 0.3px;
+    }
+  }
+
+  .tp-header-top-right {
+    gap: 20px;
+  }
+}
+
+// ----- MAIN HEADER -----
+.tp-header-main {
+  background: #ffffff;
+  padding: 14px 0;
+  border-bottom: 1px solid #e8e8e8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  // Logo
+  .logo {
+    a img {
+      max-height: 48px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  // ----- SEARCH BAR (markup + styles owned by app-header-search-bar) -----
+  .tp-header-search {
+    position: relative;
+  }
+
+  // ----- RIGHT SECTION: Login + Icons -----
+  .tp-header-main-right {
+    gap: 8px;
+    align-items: center;
+  }
+
+  // Login / Profile
+  .tp-header-login {
+    a {
+      gap: 10px;
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #f5f5f5;
+      }
+    }
+
+    .tp-header-login-icon {
+      color: #222222;              // ✅ Dark icon color
+
+      svg {
+        width: 22px;
+        height: 22px;
+        color: #333333;
+      }
+
+      .tp-header-login-initials {
+        background: #0989FF;
+        color: #fff;
+        font-weight: 700;
+        font-size: 12px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+    }
+
+    .tp-header-login-content {
+      span {
+        display: block;
+        font-size: 12px;
+        color: #888888;
+        line-height: 1;
+        margin-bottom: 3px;
+      }
+
+      .tp-header-login-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #222222;            // ✅ Dark text — clearly readable
+        margin: 0;
+        line-height: 1;
+      }
+    }
+  }
+
+  // Action icons (compare, wishlist, cart, notification)
+  .tp-header-action {
+    gap: 4px;
+    align-items: center;
+  }
+
+  .tp-header-action-item {
+    position: relative;
+  }
+
+  .tp-header-action-btn {
+    position: relative;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333333;                // ✅ Dark icons
+    transition: background 0.2s ease, color 0.2s ease;
+    text-decoration: none;
+
+    svg {
+      width: 22px;
+      height: 22px;
+      color: inherit;
+    }
+
+    &:hover {
+      background: #f0f7ff;
+      color: #0989FF;
+    }
+
+    &.notification-open-btn svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .tp-header-action-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #e53e3e;
+    color: #fff;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    border: 1.5px solid #fff;
+  }
+}
+
+// ----- HOTLINE SECTION (bottom of header) -----
+.tp-header-contact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 24px;
+  border-left: 1px solid #e8e8e8;
+
+  .tp-header-contact-icon {
+    color: #0989FF;
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .tp-header-contact-content {
+    h5 {
+      font-size: 12px;
+      color: #888888;
+      margin: 0 0 2px;
+      font-weight: 500;
+    }
+
+    p {
+      margin: 0;
+
+      a {
+        font-size: 14px;
+        font-weight: 700;
+        color: #222222;            // ✅ Dark text
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #0989FF;
+        }
+      }
+    }
+  }
+}
+
+// ============================================================
+// STICKY HEADER (second bar with nav menu)
+// ============================================================
+.tp-header-sticky-area {
+  background: #ffffff;
+  border-bottom: 1px solid #e8e8e8;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+  &.header-sticky-2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    animation: slideDown 0.3s ease;
+  }
+
+  .logo img {
+    max-height: 40px;
+    width: auto;
+  }
+
+  // Nav menu text
+  .tp-header-sticky-menu {
+    nav {
+      color: #222222;             // ✅ Dark nav text
+    }
+
+    ::ng-deep {
+      .menu-bar a,
+      .menu-bar li > a {
+        color: #222222 !important;  // ✅ Force dark menu links
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #0989FF !important;
+        }
+      }
+    }
+  }
+
+  // Sticky header action icons
+  .tp-header-action {
+    gap: 4px;
+  }
+
+  .tp-header-action-btn {
+    position: relative;
+    background: none;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    color: #333333;               // ✅ Dark icons in sticky bar
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+
+    svg {
+      width: 21px;
+      height: 21px;
+      color: inherit;
+    }
+
+    &:hover {
+      background: #f0f7ff;
+      color: #0989FF;
+    }
+  }
+
+  .tp-header-action-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #e53e3e;
+    color: #fff;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    border: 1.5px solid #fff;
+  }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+@media (max-width: 991px) {
+  .tp-header-main {
+    padding: 10px 0;
+
+    .logo a img {
+      max-height: 40px;
+    }
+  }
+
+  // Hamburger icon
+  .tp-offcanvas-open-btn svg {
+    color: #222222;               // ✅ Dark hamburger icon
+  }
+}
+
+@media (max-width: 767px) {
+  .tp-header-top {
+    display: none;
+  }
+
+  .tp-header-main {
+    padding: 10px 0;
+  }
+}

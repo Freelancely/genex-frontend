@@ -1,0 +1,51 @@
+<div class="products-container" *ngIf="subCategory()">
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">Products - {{ subCategory()?.name }}</h1>
+    </div>
+    <button class="btn-primary" [routerLink]="subCategory() ? ['/add-product', subCategory()?.id] : []">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Add Product
+    </button>
+  </div>
+
+  <div class="filters-section">
+    <div class="attribute-filters" *ngFor="let attr of subCategory()?.attributes">
+      <label>{{ attr.attributeName }}</label>
+      <div *ngIf="(attr.possibleValuesJson ?? []).length > 0">
+        <div *ngIf="attr.type === 'checkboxes'" class="checkbox-group">
+          <label *ngFor="let value of attr.possibleValuesJson">
+            <input type="checkbox" (change)="updateAttribute(attr.attributeName, value)" [checked]="selectedAttributes()[attr.attributeName].includes(value)">
+            {{ value }}
+          </label>
+        </div>
+        <select *ngIf="attr.type === 'dropdown'" (change)="updateAttribute(attr.attributeName, $any($event.target).value)">
+          <option value="">Select {{ attr.attributeName }}</option>
+          <option *ngFor="let value of attr.possibleValuesJson" [value]="value">{{ value }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="products-table-container">
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Description</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of getFilteredProducts()">
+          <td>{{ product.name }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.createdAt | date:'shortDate' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

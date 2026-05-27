@@ -1,0 +1,5 @@
+<div class="lspin" [class.lspin--inline]="inline" role="status" aria-live="polite">
+  <span class="lspin__ring lspin__ring--{{ size }}" aria-hidden="true"></span>
+  <span class="lspin__label" *ngIf="label">{{ label }}</span>
+  <span class="visually-hidden">Loading…</span>
+</div>

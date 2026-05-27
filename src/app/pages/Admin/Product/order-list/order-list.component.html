@@ -1,0 +1,256 @@
+<div class="order-list-container">
+  <div class="page-header">
+    <h1 class="page-title">Orders</h1>
+    <p class="page-subtitle">Manage customer orders efficiently</p>
+  </div>
+
+  <div class="order-table" *ngIf="orders.length > 0; else noOrders">
+    <table>
+      <thead>
+        <tr>
+          <th>SN</th>
+          <th>Order Number</th>
+          <th>Customer</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Method</th>
+          <th>Payment Status</th>
+          <th>Reference</th>
+          <th>Items</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders; let i = index">
+          <td>{{ (pageNumber - 1) * pageSize + i + 1 }}</td>
+          <td>{{ order.orderNo }}</td>
+          <td>
+            <div class="user-name-container">
+              <span>{{ order.fullName }}</span>
+              <button class="view-user-btn" (click)="openUserModal(order)" title="View customer details">
+                <i class="fa fa-eye"></i>
+              </button>
+            </div>
+          </td>
+          <td>{{ order.orderDateTime | date: 'short' }}</td>
+          <td>Nrs. {{ order.amountAfterDiscount | number: '1.2-2' }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+              {{ order.status }}
+            </span>
+            <button *ngIf="canManageOrderStatus" class="status-btn" (click)="openStatusModal(order)" title="Change status">
+              <i class="fa fa-edit"></i>
+            </button>
+          </td>
+          <td>{{ order.paymentMethod }}</td>
+          <td>
+            <span class="payment-status-badge" [ngClass]="order.paymentVerificationStatus">
+              {{ paymentStatusLabel(order.paymentVerificationStatus) }}
+            </span>
+          </td>
+          <td>
+            <button class="action-btn view-items-btn" (click)="openPaymentModal(order)" title="View payment reference info">
+              <i class="fa fa-info-circle"></i> Info
+            </button>
+            <button *ngIf="canShowMarkVerified(order)"
+                    class="action-btn confirm-btn"
+                    (click)="markPaymentVerified(order)"
+                    title="Mark payment as manually verified">
+              <i class="fa fa-check"></i> Mark Verified
+            </button>
+          </td>
+          <td>
+            <button class="action-btn view-items-btn" (click)="openItemsModal(order)" title="View order items">
+              View Items
+            </button>
+          </td>
+          <td>
+            <button *ngIf="canManageOrderStatus" class="action-btn delete-btn" (click)="openDeleteModal(order)" title="Cancel order">
+              Cancel
+            </button>
+            <span *ngIf="!canManageOrderStatus" class="muted">—</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noOrders>
+    <div class="no-orders">No orders found.</div>
+  </ng-template>
+
+  <div class="pagination" *ngIf="totalCount > pageSize">
+    <button [disabled]="pageNumber === 1" (click)="changePage(pageNumber - 1)">
+      <i class="fa fa-chevron-left"></i>
+    </button>
+    <span class="page-info">{{ pageNumber }} / {{ totalPages }}</span>
+    <button [disabled]="pageNumber === totalPages" (click)="changePage(pageNumber + 1)">
+      <i class="fa fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- Status Change Modal -->
+<div class="modal-overlay" *ngIf="showStatusModal" (click)="closeStatusModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Update Order Status</h2>
+      <button class="close-btn" (click)="closeStatusModal()">Ã—</button>
+    </div>
+    <div class="modal-body">
+      <p *ngIf="selectedOrder">Update status for order {{ selectedOrder.orderNo }}</p>
+      <div class="status-options" *ngIf="selectedOrder">
+        <button
+          *ngFor="let status of orderStatuses"
+          class="status-option"
+          [ngClass]="getStatusClass(status)"
+          [class.selected]="selectedOrder.status === status"
+          (click)="selectedOrder.status = status"
+        >
+          {{ status }}
+        </button>
+      </div>
+      <p *ngIf="!selectedOrder">No order selected.</p>
+    </div>
+    <div class="modal-actions" *ngIf="selectedOrder">
+      <button class="action-btn confirm-btn" (click)="confirmStatusChange()">Save</button>
+      <button class="action-btn cancel-btn" (click)="closeStatusModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+  <!-- Delete Order Modal -->
+  <div class="modal-overlay" *ngIf="showDeleteModal" (click)="closeDeleteModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Cancel Order</h2>
+        <button class="close-btn" (click)="closeDeleteModal()">Ã—</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to cancel order {{ selectedOrder?.orderNo }}?</p>
+      </div>
+      <div class="modal-actions">
+        <button class="action-btn confirm-btn" (click)="confirmDelete()">Confirm</button>
+        <button class="action-btn cancel-btn" (click)="closeDeleteModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Items Modal -->
+  <div class="modal-overlay" *ngIf="showItemsModal" (click)="closeItemsModal()">
+    <div class="modal-content items-modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Items in Order {{ selectedOrder?.orderNo }}</h2>
+        <button class="close-btn" (click)="closeItemsModal()">Ã—</button>
+      </div>
+      <div class="modal-body">
+        <div class="order-items-grid">
+          <div *ngFor="let item of selectedOrder?.orderItems" class="order-item-card">
+            <div class="item-image-container">
+              <img loading="lazy" [src]="item.productImageUrl" alt="{{ item.productName }}" class="item-image" />
+            </div>
+            <div class="item-details">
+              <h3 class="item-name">{{ item.productName }}</h3>
+              <p class="item-quantity">Qty: {{ item.quantity }}</p>
+              <p class="item-price">Price: Nrs. {{ item.unitPrice | number: '1.2-2' }}</p>
+              <p class="item-total">Total: Nrs. {{ item.lineTotal | number: '1.2-2' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="action-btn cancel-btn" (click)="closeItemsModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Reference Modal -->
+  <div class="modal-overlay" *ngIf="showPaymentModal" (click)="closePaymentModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Payment Reference</h2>
+        <button class="close-btn" (click)="closePaymentModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Order:</strong> {{ selectedOrder?.orderNo }}</p>
+        <p><strong>Method:</strong> {{ selectedOrder?.paymentMethod }}</p>
+        <p>
+          <strong>Verification:</strong>
+          <span class="payment-status-badge" [ngClass]="selectedOrder?.paymentVerificationStatus">
+            {{ paymentStatusLabel(selectedOrder?.paymentVerificationStatus) }}
+          </span>
+        </p>
+        <hr>
+        <p>
+          <strong>PRN (Payment Reference No.):</strong>
+          <span class="mono">{{ selectedOrder?.paymentReferenceNumber || '—' }}</span>
+          <button *ngIf="selectedOrder?.paymentReferenceNumber"
+                  class="copy-btn"
+                  (click)="copyToClipboard(selectedOrder?.paymentReferenceNumber)"
+                  title="Copy PRN">
+            <i class="fa fa-copy"></i>
+          </button>
+        </p>
+        <p>
+          <strong>Fonepay Transaction UID:</strong>
+          <span class="mono">{{ selectedOrder?.fonepayTransactionUid || '—' }}</span>
+          <button *ngIf="selectedOrder?.fonepayTransactionUid"
+                  class="copy-btn"
+                  (click)="copyToClipboard(selectedOrder?.fonepayTransactionUid)"
+                  title="Copy Fonepay UID">
+            <i class="fa fa-copy"></i>
+          </button>
+        </p>
+        <p><strong>Payment Processed At:</strong>
+          {{ selectedOrder?.paymentProcessedAt ? (selectedOrder?.paymentProcessedAt | date: 'medium') : '—' }}
+        </p>
+        <p *ngIf="selectedOrder?.paymentManuallyVerified">
+          <strong>Manually Verified At:</strong>
+          {{ selectedOrder?.paymentManuallyVerifiedAt ? (selectedOrder?.paymentManuallyVerifiedAt | date: 'medium') : '—' }}
+        </p>
+        <p class="hint">Use the PRN or Fonepay UID to look up this payment in the Fonepay merchant portal.</p>
+      </div>
+      <div class="modal-actions">
+        <button *ngIf="selectedOrder && canShowMarkVerified(selectedOrder)"
+                class="action-btn confirm-btn"
+                (click)="markPaymentVerified(selectedOrder); closePaymentModal()">
+          <i class="fa fa-check"></i> Mark Verified
+        </button>
+        <button class="action-btn cancel-btn" (click)="closePaymentModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Details Modal -->
+  <div class="modal-overlay" *ngIf="showUserModal" (click)="closeUserModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Customer Details</h2>
+        <button class="close-btn" (click)="closeUserModal()">Ã—</button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Name:</strong> {{ selectedOrder?.fullName }}</p>
+        <p><strong>Email:</strong> {{ selectedOrder?.email }}</p>
+        <p><strong>Phone:</strong> {{ selectedOrder?.phone }}</p>
+        <div class="billing-info-section">
+          <h3>Billing Information</h3>
+          <div *ngIf="billingInfoLoading" class="billing-loading">Loading billing details...</div>
+          <div *ngIf="!billingInfoLoading && selectedBillingInfo; else noBillingInfo">
+            <p><strong>Label:</strong> {{ selectedBillingInfo.label }}</p>
+            <p><strong>Phone:</strong> {{ selectedBillingInfo.phoneNumber }}</p>
+            <p><strong>Address:</strong> {{ selectedBillingInfo.address }}</p>
+            <p><strong>City:</strong> {{ selectedBillingInfo.city }}</p>
+            <p><strong>Province:</strong> {{ selectedBillingInfo.province }}</p>
+            <p><strong>Landmark:</strong> {{ selectedBillingInfo.landMark || 'N/A' }}</p>
+          </div>
+          <ng-template #noBillingInfo>
+            <p>No billing information available for this order.</p>
+          </ng-template>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="action-btn cancel-btn" (click)="closeUserModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

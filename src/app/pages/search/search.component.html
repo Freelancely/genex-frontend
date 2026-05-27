@@ -1,0 +1,79 @@
+ <!-- header start -->
+ <app-header-two [style_2]="true"></app-header-two>
+ <!-- header end -->
+
+ <main>
+   <!-- breadcrumb area start -->
+   <app-breadcrumb-one [title]="searchText ? 'Results for: ' + searchText : 'Search Products'" subtitle="Search"></app-breadcrumb-one>
+   <!-- breadcrumb area end -->
+
+   <!-- shop area start -->
+  <section class="tp-shop-area pb-120">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12">
+          <div class="tp-shop-main-wrapper">
+            <div class="tp-shop-top mb-45">
+              <div class="row">
+                <div class="col-xl-6">
+                  <div class="tp-shop-top-left d-flex align-items-center">
+                    <div class="tp-shop-top-result">
+                      <p *ngIf="!loading">
+                        <ng-container *ngIf="products.length; else noResults">
+                          Showing 1–{{ products.length > perView ? perView : products.length }} of {{ products.length }} results
+                        </ng-container>
+                        <ng-template #noResults>No products matched your search.</ng-template>
+                      </p>
+                      <p *ngIf="loading">Searching…</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6">
+                  <div class="tp-shop-top-select text-md-end">
+                    <app-nice-select
+                    [options]="selectOptions"
+                    name="Default Sorting"
+                    [defaultCurrent]="0"
+                    (onChange)="changeFilterSelect($event)"
+                    placeholder="Default Sorting"
+                    class="d-flex justify-content-end"
+                  ></app-nice-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tp-shop-items-wrapper tp-shop-item-primary" id="products">
+              <app-loading-spinner *ngIf="loading" size="lg"
+                                   label="Searching products…"></app-loading-spinner>
+              <div *ngIf="!loading && products.length">
+                <div class="row infinite-container">
+                  <div *ngFor="let item of products.slice(0, perView)" class="col-xl-4 col-md-6 col-sm-6 infinite-item">
+                    <app-product-item-two [product]="item" [spacing]="true"></app-product-item-two>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="!loading && !products.length && !error" class="text-center py-5">
+                <img loading="lazy" src="/assets/img/product/cartmini/empty-cart.png" alt="empty" style="max-width: 140px; opacity: 0.6;">
+                <h5 class="mt-3">No products match that search.</h5>
+                <p class="text-muted">Try a different keyword or browse the shop.</p>
+                <a routerLink="/shop" class="tp-btn">Back to shop</a>
+              </div>
+              <div *ngIf="error" class="text-center py-5 text-danger">{{ error }}</div>
+            </div>
+          </div>
+          <div class="text-center">
+            <button *ngIf="!loading && perView < products.length" (click)="handlePerView()" type="button" class="btn-loadmore tp-btn tp-btn-border tp-btn-border-primary">
+              Load More Products
+            </button>
+            <p *ngIf="!loading && products.length && perView >= products.length" class="btn-loadmore-text">End Of Products</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- shop area end -->
+ </main>
+
+ <!-- footer start -->
+<app-footer-one [primary_style]="true"></app-footer-one>
+<!-- footer end -->

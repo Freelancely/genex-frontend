@@ -1,0 +1,189 @@
+<div class="categories-container">
+  <div *ngIf="toastMessage()" class="toast" [ngClass]="toastType()">{{ toastMessage() }}</div>
+
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">Brands Management</h1>
+      <p class="page-subtitle">Manage your product categories and categories</p>
+    </div>
+    <button class="btn-primary" (click)="openAddCategoryModal()" [disabled]="isLoading()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Add Category
+    </button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon categories-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3h18v18H3z"></path>
+          <path d="M12 3v18"></path>
+          <path d="M3 12h18"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3>{{ totalCategories() }}</h3>
+        <p>Total Brands</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon subcategories-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3>{{ totalSubCategories() }}</h3>
+        <p>Total Categories</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon products-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3>{{ totalProducts() }}</h3>
+        <p>Total Products</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="filters-section">
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="M21 21l-4.35-4.35"></path>
+      </svg>
+      <input type="text" placeholder="Search brands..." [(ngModel)]="searchTerm" (input)="onSearch()" [disabled]="isLoading()">
+    </div>
+  </div>
+
+  <div class="loading-overlay" *ngIf="isLoading()">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="categories-table-container">
+    <table class="categories-table">
+      <thead>
+        <tr>
+          <th class="drag-handle"></th>
+          <th (click)="sortTable('name')">
+            Brand
+            <span class="sort-icon" [ngClass]="{'active': sortBy === 'name', 'desc': sortDirection === 'desc'}"></span>
+          </th>
+          <th>Categories</th>
+          <th>Products</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody cdkDropList (cdkDropListDropped)="dropCategory($event)">
+        <ng-container *ngFor="let category of filteredCategories() | slice:((currentPage-1)*itemsPerPage):currentPage*itemsPerPage; trackBy: trackByCategoryId">
+          <tr cdkDrag (click)="openAddSubCategory(category)" style="cursor: pointer;">
+            <td class="drag-handle">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="6" x2="20" y2="6"></line>
+                <line x1="4" y1="12" x2="20" y2="12"></line>
+                <line x1="4" y1="18" x2="20" y2="18"></line>
+              </svg>
+            </td>
+            <td class="category-cell">
+              <div class="category-info">
+                <h4>{{ category.name }}</h4>
+              </div>
+            </td>
+            <td [ngClass]="{'clickable': category.subCategoryCount > 0}">{{ category.subCategoryCount }}</td>
+            <td [ngClass]="{'clickable': category.productCount > 0}">{{ category.productCount }}</td>
+            <td class="actions-cell">
+            <button
+              class="action-btn delete"
+              (click)="deleteCategory(category); $event.stopPropagation();"
+              [disabled]="isDeleteButtonDisabled(category).disabled"
+              [title]="isDeleteButtonDisabled(category).tooltip"
+            >
+              <svg *ngIf="!isDeleteButtonDisabled(category).disabled" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3,6 5,6 21,6"></polyline>
+                <path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2V6"></path>
+              </svg>
+              <svg *ngIf="isDeleteButtonDisabled(category).disabled" class="disabled-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+              </svg>
+            </button>
+          </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <div class="pagination-info">
+      Showing {{ ((currentPage - 1) * itemsPerPage) + 1 }} to
+      {{ Math.min(currentPage * itemsPerPage, filteredCategories().length) }}
+      of {{ filteredCategories().length }} brands
+    </div>
+    <div class="pagination-controls">
+      <button class="pagination-btn" [disabled]="currentPage === 1 || isLoading()" (click)="previousPage()">
+        Previous
+      </button>
+      <span class="page-numbers">
+        <button *ngFor="let page of getPageNumbers()" class="page-btn" [class.active]="page === currentPage" (click)="goToPage(page)" [disabled]="isLoading()">
+          {{ page }}
+        </button>
+      </span>
+      <button class="pagination-btn" [disabled]="currentPage === totalPages() || isLoading()" (click)="nextPage()">
+        Next
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showCategoryModal" (click)="closeCategoryModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 *ngIf="!isDeleteMode">{{ isCategoryEditMode ? 'Edit Category' : 'Add New Category' }}</h2>
+        <h2 *ngIf="isDeleteMode">Confirm Deletion</h2>
+        <button class="close-btn" (click)="closeCategoryModal()" [disabled]="isLoading()">×</button>
+      </div>
+      <form *ngIf="!isDeleteMode" [formGroup]="categoryForm" (ngSubmit)="onCategorySubmit()">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Category Name *</label>
+            <input type="text" formControlName="name" placeholder="Enter category name">
+            <div class="error" *ngIf="categoryForm.get('name')?.errors?.['required'] && categoryForm.get('name')?.touched">
+              Category name is required
+            </div>
+            <div class="error" *ngIf="categoryForm.get('name')?.errors?.['minlength'] && categoryForm.get('name')?.touched">
+              Name must be at least 2 characters
+            </div>
+            <div class="error" *ngIf="categoryForm.get('name')?.errors?.['maxlength'] && categoryForm.get('name')?.touched">
+              Name cannot exceed 50 characters
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" (click)="closeCategoryModal()" [disabled]="isLoading()">Cancel</button>
+          <button type="submit" class="btn-primary" [disabled]="categoryForm.invalid || isLoading()">
+            {{ isCategoryEditMode ? 'Update Category' : 'Add Category' }}
+          </button>
+        </div>
+      </form>
+      <div *ngIf="isDeleteMode" class="delete-confirmation">
+        <p>Are you sure you want to delete "{{ currentEditCategory?.name }}"?</p>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" (click)="closeCategoryModal()" [disabled]="isLoading()">Cancel</button>
+          <button type="button" class="btn-danger" (click)="confirmDelete()" [disabled]="isLoading()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

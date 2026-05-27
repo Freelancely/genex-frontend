@@ -1,0 +1,49 @@
+<div class="tp-header-top-menu d-flex align-items-center justify-content-end">
+  <div class="tp-header-top-menu-item tp-header-setting">
+    <span
+      (click)="handleActive('setting', $event)"
+      class="tp-header-setting-toggle tp-header-setting-toggle--with-avatar"
+      id="tp-header-setting-toggle"
+      [attr.aria-expanded]="isActive === 'setting'"
+      role="button">
+      <span *ngIf="isLoggedIn() && profile" class="tp-header-setting-avatar" aria-hidden="true">
+        <img loading="lazy" *ngIf="profile.profileImageUrl; else initialsFallback" [src]="profile.profileImageUrl" alt="">
+        <ng-template #initialsFallback>
+          <span class="tp-header-setting-avatar__initials">{{ getInitials() }}</span>
+        </ng-template>
+      </span>
+      <span class="tp-header-setting-label">
+        {{ isLoggedIn() && profile ? (profile.firstname || 'Account') : 'Setting' }}
+      </span>
+    </span>
+    <ul [ngClass]="isActive === 'setting' ? 'tp-setting-list-open' : ''">
+      <li *ngIf="isAdmin()">
+        <a [routerLink]="['/pages/admin/dashboard']">Admin Dashboard</a>
+      </li>
+      <li *ngIf="isLoggedIn() && !isAdmin()">
+        <a [routerLink]="['/pages/profile']" [queryParams]="{ tab: 'profile' }">My Profile</a>
+      </li>
+      <li *ngIf="isLoggedIn() && !isAdmin()">
+        <a [routerLink]="['/pages/profile']" [queryParams]="{ tab: 'orders' }">My Orders</a>
+      </li>
+      <li *ngIf="!isAdmin()">
+        <a routerLink="/shop/wishlist">Wishlist</a>
+      </li>
+      <li *ngIf="!isAdmin()">
+        <a routerLink="/shop/cart">Cart ({{ cartCount }})</a>
+      </li>
+      <li *ngIf="!isAdmin()">
+        <a [routerLink]="['/pages/coupons']">Coupons</a>
+      </li>
+      <li *ngIf="isLoggedIn()">
+        <a (click)="logout()" style="cursor: pointer;">Logout</a>
+      </li>
+      <li *ngIf="!isLoggedIn()">
+        <a routerLink="/pages/login" style="cursor: pointer;">Login</a>
+      </li>
+      <li *ngIf="!isLoggedIn()">
+        <a routerLink="/pages/register" style="cursor: pointer;">Register</a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,262 @@
+// Banner Section Styles
+.tp-banner-area {
+  .responsive-banner-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+      .banner-hover-overlay {
+        opacity: 1 !important;
+      }
+    }
+
+    // Image loading states
+    &.image-loading {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+
+      .banner-loading-indicator {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 10;
+        color: white;
+
+        .spinner-border {
+          width: 2.5rem;
+          height: 2.5rem;
+          border-width: 3px;
+        }
+
+        p {
+          margin: 0;
+          font-size: 14px;
+          opacity: 0.9;
+          font-weight: 500;
+        }
+      }
+    }
+
+    &.image-loaded {
+      .tp-banner-thumb {
+        transition: background-image 0.5s ease;
+      }
+    }
+
+    .tp-banner-thumb {
+      min-height: 300px;
+      position: relative;
+
+      // Large banner (Genex)
+      .col-xl-8 & {
+        min-height: 350px;
+
+        @media (max-width: 1199px) {
+          min-height: 300px;
+        }
+
+        @media (max-width: 767px) {
+          min-height: 250px;
+        }
+      }
+
+      // Small banner (Chunlan)
+      .col-xl-4 & {
+        min-height: 350px;
+
+        @media (max-width: 1199px) {
+          min-height: 300px;
+        }
+
+        @media (max-width: 767px) {
+          min-height: 250px;
+        }
+      }
+    }
+
+    .banner-link-overlay {
+      text-decoration: none;
+      cursor: pointer;
+
+      .banner-hover-overlay {
+        &:hover {
+          opacity: 0.1 !important;
+        }
+      }
+    }
+
+    // Placeholder styles
+    .banner-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+
+      .placeholder-content {
+        padding: 2rem;
+
+        i {
+          margin-bottom: 1rem;
+        }
+
+        h5, h6 {
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+        }
+
+        p {
+          font-size: 14px;
+          margin: 0;
+        }
+      }
+
+      // Genex placeholder
+      .col-xl-8 & {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+
+        .placeholder-content {
+          h5 {
+            font-size: 1.5rem;
+          }
+        }
+      }
+
+      // Chunlan placeholder
+      .col-xl-4 & {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+
+        .placeholder-content {
+          h6 {
+            font-size: 1.25rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 1199px) {
+  .tp-banner-area {
+    .responsive-banner-item {
+      margin-bottom: 20px;
+
+      .tp-banner-thumb {
+        min-height: 280px;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .tp-banner-area {
+    padding-bottom: 50px;
+
+    .responsive-banner-item {
+      margin-bottom: 20px;
+      border-radius: 8px;
+
+      .tp-banner-thumb {
+        min-height: 220px;
+      }
+
+      .banner-loading-indicator {
+        .spinner-border {
+          width: 2rem;
+          height: 2rem;
+        }
+
+        p {
+          font-size: 12px;
+        }
+      }
+
+      .placeholder-content {
+        padding: 1.5rem;
+
+        i {
+          font-size: 2rem !important;
+          margin-bottom: 0.75rem;
+        }
+
+        h5 {
+          font-size: 1.2rem;
+        }
+
+        h6 {
+          font-size: 1.1rem;
+        }
+
+        p {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .tp-banner-area {
+    .container {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    .responsive-banner-item {
+      .tp-banner-thumb {
+        min-height: 200px;
+      }
+    }
+  }
+}
+
+// Loading animation
+@keyframes bannerPulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.responsive-banner-item.image-loading {
+  animation: bannerPulse 2s infinite ease-in-out;
+}
+
+// Accessibility improvements
+.banner-link-overlay {
+  &:focus {
+    outline: 3px solid rgba(0, 123, 255, 0.5);
+    outline-offset: 2px;
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(0, 123, 255, 0.8);
+  }
+}
+
+// Print styles
+@media print {
+  .tp-banner-area {
+    .banner-loading-indicator,
+    .banner-hover-overlay {
+      display: none !important;
+    }
+
+    .responsive-banner-item {
+      box-shadow: none;
+      border: 1px solid #ddd;
+    }
+  }
+}

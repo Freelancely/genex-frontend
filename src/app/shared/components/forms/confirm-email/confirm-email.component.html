@@ -1,0 +1,15 @@
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-body text-center">
+      <h2>Email Verification</h2>
+      <ng-container *ngIf="status === 'success'">
+        <p class="text-success">Your email has been successfully verified!</p>
+        <a routerLink="/pages/login" class="btn btn-primary">Go to Login</a>
+      </ng-container>
+      <ng-container *ngIf="status === 'failed'">
+        <p class="text-danger">Email verification failed: {{ message || 'An error occurred.' }}</p>
+        <a routerLink="/register" class="btn btn-primary">Back to Register</a>
+      </ng-container>
+    </div>
+  </div>
+</div>

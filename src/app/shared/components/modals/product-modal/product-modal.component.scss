@@ -1,0 +1,61 @@
+.tp-product-modal {
+  .modal-content {
+    border-radius: 14px;
+    overflow: hidden;
+    border: none;
+  }
+
+  .tp-product-modal-content {
+    padding: 32px 32px 28px;
+
+    @media (max-width: 991.98px) {
+      padding: 24px;
+    }
+  }
+
+  .tp-product-modal-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f5f7fa;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #0c1d3f;
+    font-size: 16px;
+    transition: background 0.2s ease, color 0.2s ease;
+    z-index: 2;
+
+    &:hover {
+      background: #0989ff;
+      color: #fff;
+    }
+  }
+
+  .modal-thumb {
+    flex: 0 0 45%;
+    max-width: 45%;
+    padding-right: 28px;
+
+    @media (max-width: 991.98px) {
+      flex: 1 1 100%;
+      max-width: 100%;
+      padding-right: 0;
+      margin-bottom: 20px;
+    }
+  }
+
+  .modal-wrapper {
+    flex: 1 1 55%;
+    max-width: 55%;
+
+    @media (max-width: 991.98px) {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+  }
+}

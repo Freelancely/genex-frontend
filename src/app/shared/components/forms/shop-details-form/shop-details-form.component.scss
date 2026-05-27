@@ -1,0 +1,23 @@
+.tp-product-details-review-form-rating {
+  .tp-product-details-review-form-rating-icon {
+    .star {
+      font-size: 20px;
+      cursor: pointer;
+      margin-right: 5px;
+      transition: color 0.2s ease;
+    }
+
+    .star-empty {
+      color: #ccc; /* Color for unselected stars */
+    }
+
+    .star-filled {
+      color: #f8c51c; /* Color for selected stars */
+    }
+
+    .star:hover,
+    .star:hover ~ .star {
+      color: #e0a800; /* Hover effect color */
+    }
+  }
+}

@@ -1,0 +1,29 @@
+<section class="tp-seller-area pb-140">
+  <div class="container">
+     <div class="row">
+        <div class="col-xl-12">
+           <div class="tp-section-title-wrapper-2 mb-50">
+              <span class="tp-section-title-pre-2">
+                 Best Seller This Week’s
+                 <svg width="82" height="22" viewBox="0 0 82 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M81 14.5798C0.890564 -8.05914 -5.81154 0.0503902 5.00322 21" stroke="currentColor" stroke-opacity="0.3" stroke-width="2" stroke-miterlimit="3.8637" stroke-linecap="round"/>
+                 </svg>
+              </span>
+              <h3 class="tp-section-title-2">This Week's Featured</h3>
+           </div>
+        </div>
+     </div>
+     <div class="row">
+        <div *ngFor="let item of products" class="col-xl-3 col-lg-4 col-sm-6">
+          <app-product-item-two [product]="item"/>
+        </div>
+     </div>
+     <div class="row">
+        <div class="col-xl-12">
+           <div class="tp-seller-more text-center mt-10">
+              <a routerLink="/shop" class="tp-btn tp-btn-border tp-btn-border-sm">Shop All Product</a>
+           </div>
+        </div>
+     </div>
+  </div>
+</section>

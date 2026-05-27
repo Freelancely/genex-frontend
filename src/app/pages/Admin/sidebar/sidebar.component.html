@@ -1,0 +1,53 @@
+<div class="sidebar" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
+  <div class="sidebar-header">
+    <a routerLink="/pages/admin/dashboard" class="sidebar-logo">{{
+      isSidebarCollapsed ? '' : 'GeneX Admin'
+    }}</a>
+  </div>
+  <div class="sidebar-menu">
+    <ul>
+      <ng-container *ngFor="let item of visibleMenuItems">
+        <li class="sidebar-menu-item">
+          <a
+            [routerLink]="item.route"
+            class="sidebar-item"
+            [ngClass]="{
+              'has-children': item.children,
+              'menu-item-active': item.isOpen
+            }"
+            (click)="toggleMenuItem(item)"
+          >
+            <i [class]="item.icon"></i>
+            <span class="sidebar-item-text">{{ item.label }}</span>
+            <i
+              *ngIf="item.children && !isSidebarCollapsed"
+              class="fas fa-chevron-down sidebar-item-arrow"
+              [ngClass]="{ rotated: item.isOpen }"
+            ></i>
+          </a>
+
+          <ul
+            *ngIf="item.children && !isSidebarCollapsed && item.isOpen"
+            class="sidebar-submenu"
+          >
+            <li *ngFor="let child of item.children">
+              <a
+                [routerLink]="child.route"
+                class="sidebar-item sidebar-subitem"
+              >
+                <i [class]="child.icon"></i>
+                <span class="sidebar-item-text">{{ child.label }}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
+    </ul>
+    <div class="sidebar-logout">
+      <a class="sidebar-item" (click)="onLogout()" [ngClass]="{ 'sidebar-item-disabled': isSidebarCollapsed }">
+        <i class="fas fa-sign-out-alt"></i>
+        <span class="sidebar-item-text">Logout</span>
+      </a>
+    </div>
+  </div>
+</div>

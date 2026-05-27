@@ -1,0 +1,89 @@
+<div class="inquiries-container">
+  <div class="page-header">
+    <h1 class="page-title">Inquiries</h1>
+    <p class="page-subtitle">Customer messages submitted via the Contact Us form.</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <div class="loading" *ngIf="loading">Loading inquiries…</div>
+
+  <div class="inquiry-table" *ngIf="!loading && inquiries.length > 0; else noInquiries">
+    <table>
+      <thead>
+        <tr>
+          <th>SN</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>Submitted</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let inquiry of inquiries; let i = index" [class.unread-row]="!inquiry.isRead">
+          <td>{{ i + 1 }}</td>
+          <td>{{ inquiry.name }}</td>
+          <td>{{ inquiry.email }}</td>
+          <td>{{ inquiry.subject }}</td>
+          <td>{{ inquiry.submittedAt | date: 'short' }}</td>
+          <td>
+            <span class="status-badge" [class.unread]="!inquiry.isRead" [class.read]="inquiry.isRead">
+              {{ inquiry.isRead ? 'Read' : 'Unread' }}
+            </span>
+          </td>
+          <td>
+            <button class="action-btn view-btn" (click)="openMessage(inquiry)" title="View full message">
+              <i class="fa fa-eye"></i> View
+            </button>
+            <button class="action-btn delete-btn" (click)="openDelete(inquiry)" title="Delete inquiry">
+              <i class="fa fa-trash"></i> Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noInquiries>
+    <div *ngIf="!loading" class="no-inquiries">No inquiries found.</div>
+  </ng-template>
+
+  <div class="modal-overlay" *ngIf="showMessageModal" (click)="closeMessage()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ selected?.subject }}</h2>
+        <button class="close-btn" (click)="closeMessage()">×</button>
+      </div>
+      <div class="modal-body">
+        <p><strong>From:</strong> {{ selected?.name }} &lt;{{ selected?.email }}&gt;</p>
+        <p><strong>Submitted:</strong> {{ selected?.submittedAt | date: 'medium' }}</p>
+        <hr>
+        <p class="inquiry-message">{{ selected?.message }}</p>
+      </div>
+      <div class="modal-actions">
+        <a *ngIf="selected" class="action-btn confirm-btn" [href]="'mailto:' + selected.email + '?subject=Re: ' + selected.subject">
+          <i class="fa fa-reply"></i> Reply via Email
+        </a>
+        <button class="action-btn cancel-btn" (click)="closeMessage()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showDeleteModal" (click)="closeDelete()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Delete Inquiry</h2>
+        <button class="close-btn" (click)="closeDelete()">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete the inquiry from <strong>{{ selected?.name }}</strong>?</p>
+      </div>
+      <div class="modal-actions">
+        <button class="action-btn confirm-btn" (click)="confirmDelete()">Delete</button>
+        <button class="action-btn cancel-btn" (click)="closeDelete()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

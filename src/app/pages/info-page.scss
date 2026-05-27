@@ -1,0 +1,131 @@
+// Shared layout for the static info pages (Privacy / Terms / Shipping / Returns).
+// Imported by each page's component.scss via `@use './info-page.scss' as *;` style
+// is not required — these are simple class-based rules.
+
+.info-page {
+  background: #ffffff;
+
+  &__intro {
+    padding: 90px 0 40px;
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: #0989ff;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .lede {
+      font-size: 16px;
+      color: #4b5563;
+      max-width: 720px;
+      line-height: 1.6;
+    }
+
+    .updated {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+  }
+
+  &__body {
+    padding: 20px 0 110px;
+
+    .container {
+      max-width: 880px;
+    }
+
+    section {
+      margin-top: 48px;
+
+      h2 {
+        font-size: 22px;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 14px;
+      }
+
+      h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 24px 0 10px;
+      }
+
+      p, li {
+        font-size: 15px;
+        color: #4b5563;
+        line-height: 1.7;
+      }
+
+      ul {
+        padding-left: 22px;
+        margin: 8px 0 12px;
+      }
+
+      li {
+        margin-bottom: 6px;
+        list-style: disc;
+      }
+
+      a {
+        color: #0989ff;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .info-callout {
+      background: #f3f7ff;
+      border: 1px solid #d8e6ff;
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin-top: 26px;
+
+      strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #1f2937;
+      }
+
+      p {
+        margin: 0;
+        font-size: 14px;
+        color: #374151;
+      }
+    }
+
+    .contact-card {
+      margin-top: 48px;
+      padding: 28px;
+      border-radius: 12px;
+      background: #f9fafb;
+      border: 1px solid #eef0f3;
+
+      h3 {
+        margin-top: 0;
+        color: #1f2937;
+      }
+
+      p {
+        margin-bottom: 4px;
+      }
+    }
+  }
+}

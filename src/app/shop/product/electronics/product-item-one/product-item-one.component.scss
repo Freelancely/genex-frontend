@@ -1,0 +1,136 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.tp-product-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border: 1px solid #eef0f3;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+
+  &:hover {
+    border-color: transparent;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.tp-product-item .tp-product-thumb {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  background: #f6f7f9;
+  overflow: hidden;
+
+  a {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+}
+
+.tp-product-item .tp-product-content {
+  padding: 14px 16px 18px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+
+  .tp-product-category a {
+    font-size: 12px;
+    color: #8a93a0;
+    letter-spacing: 0.2px;
+  }
+
+  .tp-product-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 44px;
+    line-height: 1.3;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 6px;
+
+    a {
+      color: #1f2937;
+      transition: color 0.18s ease;
+
+      &:hover {
+        color: #0989ff;
+      }
+    }
+  }
+
+  .tp-product-rating-icon {
+    color: #ffb21d;
+    font-size: 12px;
+  }
+
+  // ----- Price block -----
+  .tp-product-price-wrapper {
+    margin-top: auto;
+    padding-top: 8px;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+  }
+
+  .tp-product-price {
+    font-family: var(--tp-ff-roboto, system-ui);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+
+    &.new-price {
+      font-size: 16px;
+      font-weight: 500;
+      color: #0989ff;
+    }
+
+    &.old-price {
+      font-size: 13px;
+      font-weight: 400;
+      color: #9ca3af;
+      text-decoration: line-through;
+    }
+  }
+
+  .tp-product-discount-badge {
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+    padding: 3px 7px;
+    border-radius: 999px;
+    background: #fff1f0;
+    color: #e53e3e;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 1;
+  }
+}

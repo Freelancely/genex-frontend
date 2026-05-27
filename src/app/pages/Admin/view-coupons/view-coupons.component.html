@@ -1,0 +1,59 @@
+<div class="view-coupons-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" class="title-icon">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        View Coupons
+      </h1>
+    </div>
+    <button class="btn-secondary" (click)="goBack()" [attr.aria-label]="'Go back'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" class="btn-icon">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Back
+    </button>
+  </div>
+
+  <div class="tabs-container">
+    <div class="tab" [class.active]="activeTab() === 'live'" (click)="setActiveTab('live')" (keydown.enter)="setActiveTab('live')" role="tab" tabindex="0" [attr.aria-selected]="activeTab() === 'live'">Live Coupons</div>
+    <div class="tab" [class.active]="activeTab() === 'expired'" (click)="setActiveTab('expired')" (keydown.enter)="setActiveTab('expired')" role="tab" tabindex="0" [attr.aria-selected]="activeTab() === 'expired'">Expired Coupons</div>
+  </div>
+
+  <div class="coupons-list">
+    <div class="coupon-card" *ngFor="let coupon of coupons()">
+      <div class="coupon-image">
+        <ng-container *ngIf="coupon.couponImageUrl && !coupon.couponImageUrl.toLowerCase().endsWith('.pdf'); else nonImage">
+          <img loading="lazy" [src]="coupon.couponImageUrl" alt="{{ coupon.couponName || coupon.CouponName || 'Coupon' }} coupon" class="coupon-img" />
+        </ng-container>
+        <ng-template #nonImage>
+          <div class="placeholder-container">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" class="placeholder-icon">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span class="placeholder-text">{{ coupon.couponImageUrl?.toLowerCase().endsWith('.pdf') ? 'PDF File' : 'No Image' }}</span>
+          </div>
+        </ng-template>
+      </div>
+      <div class="coupon-details">
+        <h3>{{ coupon.couponName || coupon.CouponName || 'Coupon' }}</h3>
+        <p><strong>Code:</strong> {{ coupon.couponCode }}</p>
+        <p><strong>Discount:</strong> {{ coupon.discountPercent }}%</p>
+        <p><strong>Start Date:</strong> {{ coupon.startDate | date:'medium' }}</p>
+        <p><strong>End Date:</strong> {{ coupon.endDate | date:'medium' }}</p>
+      </div>
+      <button class="btn-edit" (click)="editCoupon(coupon)" [attr.aria-label]="'Edit ' + coupon.CouponName + ' coupon'">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" class="btn-icon">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+        Edit
+      </button>
+    </div>
+    <div *ngIf="coupons().length === 0" class="no-coupons">
+      No {{ activeTab() === 'live' ? 'live' : 'expired' }} coupons available.
+    </div>
+  </div>
+</div>

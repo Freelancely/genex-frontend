@@ -1,0 +1,38 @@
+<div class="banner-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">Banner Management</h1>
+      <p class="page-subtitle">Manage your promotional banners</p>
+    </div>
+  </div>
+
+  <div class="form-container">
+    <h2>Add New Banner</h2>
+    <form [formGroup]="bannerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Hyperlink (Optional)</label>
+        <input type="text" formControlName="hyperlink" placeholder="Enter hyperlink (e.g., http://example.com)">
+      </div>
+      <div class="form-group">
+        <label>Banner Category *</label>
+        <select formControlName="bannerCategory">
+          <option *ngFor="let category of bannerCategories" [value]="category">{{ category }}</option>
+        </select>
+        <div class="error" *ngIf="bannerForm.get('bannerCategory')?.errors?.['required'] && bannerForm.get('bannerCategory')?.touched">
+          Banner category is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Banner Image *</label>
+        <input type="file" accept="image/*" (change)="onImageSelected($event)" #imageInput>
+        <div class="error" *ngIf="bannerForm.get('image')?.errors?.['required'] && bannerForm.get('image')?.touched">
+          Banner image is required
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" [disabled]="!bannerForm.valid">Add Banner</button>
+        <button type="button" (click)="resetForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

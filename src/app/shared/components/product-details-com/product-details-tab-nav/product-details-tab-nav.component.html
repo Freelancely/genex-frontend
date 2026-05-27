@@ -1,0 +1,168 @@
+<div class="tp-product-details-tab-nav tp-tab">
+  <nav>
+    <div class="nav nav-tabs justify-content-center p-relative tp-product-tab" id="navPresentationTab" role="tablist">
+      <button
+        #navActive
+        (click)="handleActiveMarker($event)"
+        class="nav-link active"
+        id="nav-review-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#nav-review"
+        type="button"
+        role="tab"
+        aria-controls="nav-review"
+        aria-selected="true"
+      >
+        <i class="fas fa-star me-2"></i>
+        Reviews ({{ product.reviews?.length || 0 }})
+      </button>
+      <span #productTabMarker id="productTabMarker" class="tp-product-details-tab-line"></span>
+    </div>
+  </nav>
+
+  <div class="tab-content" id="navPresentationTabContent">
+    <div
+      class="tab-pane fade show active"
+      id="nav-review"
+      role="tabpanel"
+      aria-labelledby="nav-review-tab"
+      tabindex="0"
+    >
+      <div class="tp-product-details-review-wrapper">
+        <div class="row g-4">
+          <!-- Reviews List Section -->
+          <div class="col-lg-7">
+            <div class="tp-product-details-review-list">
+              <div class="review-header">
+                <h3 class="tp-product-details-review-title">
+                  <i class="fas fa-comments me-3"></i>
+                  Customer Reviews
+                </h3>
+                <div class="average-rating-display" *ngIf="averageRating > 0">
+                  <div class="rating-stars">
+                    <span
+                      *ngFor="let i of [1, 2, 3, 4, 5]"
+                      [ngClass]="{
+                        'fas fa-star filled': i <= averageRating,
+                        'far fa-star empty': i > averageRating
+                      }"
+                    ></span>
+                  </div>
+                  <span class="rating-text">{{ averageRating.toFixed(1) }} out of 5</span>
+                </div>
+              </div>
+
+              <ng-container *ngIf="product.reviews && product.reviews.length > 0; else noReviews">
+                <div class="reviews-container">
+                  <div
+                    *ngFor="let item of product.reviews; let i = index"
+                    class="review-card"
+                  >
+                    <div class="review-card-header">
+                      <div class="reviewer-info">
+                        <div class="reviewer-details">
+                          <h4 class="reviewer-name">
+                            {{ item.name }}
+                            <span *ngIf="item.isAdmin" class="admin-badge">
+                              <i class="fas fa-shield-alt"></i> Admin
+                            </span>
+                          </h4>
+                          <div class="review-meta">
+                            <div class="review-rating">
+                              <span
+                                *ngFor="let star of [1, 2, 3, 4, 5]"
+                                [ngClass]="{
+                                  'fas fa-star filled': star <= item.rating,
+                                  'far fa-star empty': star > item.rating
+                                }"
+                              ></span>
+                            </div>
+                            <span class="review-date">{{ item.date | date: 'mediumDate' }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="review-content">
+                      <p>{{ item.review }}</p>
+                    </div>
+
+                    <!-- Responses Section -->
+                    <div *ngIf="item.responses && item.responses.length > 0" class="review-responses">
+                      <div *ngFor="let response of item.responses" class="response-item">
+                        <div class="response-header">
+                          <i class="fas fa-reply me-2"></i>
+                          <strong *ngIf="!response.isAdmin">{{ response.username }}</strong>
+                          <span *ngIf="response.isAdmin" class="admin-badge">
+                            <i class="fas fa-shield-alt"></i> Admin
+                          </span>
+                          <span class="response-date">{{ response.responseDate | date: 'short' }}</span>
+                        </div>
+                        <p class="response-text">{{ response.description }}</p>
+                      </div>
+                    </div>
+
+                    <!-- Reply Section -->
+                    <div class="review-actions">
+                      <button *ngIf="isAdmin" class="reply-btn" (click)="toggleReplyForm(i)">
+                        <i class="fas fa-reply me-2"></i>
+                        {{ showReplyForm[i] ? 'Cancel' : 'Reply' }}
+                      </button>
+
+                      <div *ngIf="showReplyForm[i]" class="reply-form-container">
+                        <div class="reply-form">
+                          <textarea
+                            [(ngModel)]="replyText[i]"
+                            placeholder="Share your thoughts on this review..."
+                            class="reply-textarea"
+                          ></textarea>
+                          <div class="reply-actions">
+                            <button class="submit-reply-btn" (click)="submitReply(item.reviewId, i)">
+                              <i class="fas fa-paper-plane me-2"></i>
+                              Submit Reply
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #noReviews>
+                <div class="no-reviews-container">
+                  <div class="no-reviews-icon">
+                    <i class="far fa-comment-dots"></i>
+                  </div>
+                  <h5 class="no-reviews-title">No Reviews Yet</h5>
+                  <p class="no-reviews-subtitle">Be the first to share your experience with this product!</p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+
+          <!-- Review Form Section -->
+          <div class="col-lg-5">
+            <div class="tp-product-details-review-form">
+              <div class="review-form-header">
+                <h3 class="tp-product-details-review-form-title">
+                  <i class="fas fa-edit me-3"></i>
+                  Write a Review
+                </h3>
+                <p class="review-form-subtitle">Share your experience to help others make informed decisions</p>
+                <p class="required-note">
+                  <i class="fas fa-info-circle me-2"></i>
+                  Your email address will not be published. Required fields are marked *
+                </p>
+              </div>
+              <app-shop-details-form
+                [productId]="product.id"
+                (onSubmitReview)="submitReview($event)"
+              ></app-shop-details-form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

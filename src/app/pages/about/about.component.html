@@ -1,0 +1,176 @@
+<!-- header start -->
+<app-header-two [style_2]="true"></app-header-two>
+<!-- header end -->
+
+<!-- breadcrumb area start -->
+<app-breadcrumb-one title="About Genex Intl" subtitle="About"></app-breadcrumb-one>
+<!-- breadcrumb area end -->
+
+<main class="genex-about">
+  <!-- intro section -->
+  <section class="genex-about__intro pt-120 pb-90">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <div class="genex-about__intro-text">
+            <span class="genex-about__eyebrow">Since 2016 · Nepal</span>
+            <h2 class="genex-about__heading">Electronics that power everyday Nepali homes.</h2>
+            <p>
+              Genex Intl Pvt Ltd is a Nepal-based electronics company specialising in essential home
+              appliances — washing machines and refrigerators. We focus on durable, energy-efficient
+              products backed by genuine warranty and reliable after-sales service.
+            </p>
+            <div class="genex-about__intro-points">
+              <div class="genex-about__intro-point">
+                <span class="dot"></span>
+                Authorized supply &amp; nationwide delivery
+              </div>
+              <div class="genex-about__intro-point">
+                <span class="dot"></span>
+                Brand-backed warranty on every unit
+              </div>
+              <div class="genex-about__intro-point">
+                <span class="dot"></span>
+                Voltage-stabilised cooling for Nepali power conditions
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="genex-about__intro-visual">
+            <div class="panel panel--primary">
+              <i class="fa-solid fa-snowflake"></i>
+              <span>Refrigerators</span>
+            </div>
+            <div class="panel panel--muted">
+              <i class="fa-solid fa-shirt"></i>
+              <span>Washing Machines</span>
+            </div>
+            <div class="panel panel--accent">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>Warranty &amp; Service</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- values section -->
+  <section class="genex-about__values pb-120">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-7 text-center mb-60">
+          <span class="genex-about__eyebrow">What we stand for</span>
+          <h3 class="genex-about__section-title">A quieter promise: honest pricing, genuine stock, human service.</h3>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="genex-value-card">
+            <div class="icon"><i class="fa-solid fa-box-open"></i></div>
+            <h5>Genuine Stock</h5>
+            <p>Every unit is sourced through authorised channels — no grey imports, no surprises.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="genex-value-card">
+            <div class="icon"><i class="fa-solid fa-tag"></i></div>
+            <h5>Fair Pricing</h5>
+            <p>Transparent MRP with clear discounts. What you see on the tag is what you pay.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="genex-value-card">
+            <div class="icon"><i class="fa-solid fa-headset"></i></div>
+            <h5>Real Support</h5>
+            <p>Reachable after-sales support in Nepali and English — no chat-bot mazes.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="genex-value-card">
+            <div class="icon"><i class="fa-solid fa-truck-fast"></i></div>
+            <h5>Nationwide Delivery</h5>
+            <p>From Kathmandu to the districts — careful delivery for heavy appliances.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- stats strip -->
+  <section class="genex-about__stats">
+    <div class="container">
+      <div class="row g-0 genex-about__stats-grid">
+        <div class="col-md-3 col-6">
+          <div class="genex-about__stat">
+            <h4>2016</h4>
+            <span>Founded in Nepal</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="genex-about__stat">
+            <h4>5,000+</h4>
+            <span>Homes served</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="genex-about__stat">
+            <h4>300+</h4>
+            <span>Appliance models</span>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="genex-about__stat">
+            <h4>100%</h4>
+            <span>Genuine warranty</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- coupon preview start -->
+  <section class="genex-about__coupons pt-120 pb-120">
+    <div class="container">
+      <div class="row justify-content-between align-items-end mb-50 g-3">
+        <div class="col-lg-7">
+          <span class="genex-about__eyebrow">Live savings</span>
+          <h3 class="genex-about__section-title mb-0">Offers active right now.</h3>
+        </div>
+        <div class="col-lg-5 text-lg-end">
+          <a [routerLink]="['/pages/coupons']" class="genex-about__link">
+            View all coupons <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="row g-4" *ngIf="coupons.length; else noCoupons">
+        <div *ngFor="let coupon of coupons" class="col-lg-6">
+          <div class="genex-coupon-strip">
+            <div class="genex-coupon-strip__left">
+              <span class="tag">{{ coupon.discountPercent }}% OFF</span>
+              <h5>{{ coupon.CouponName }}</h5>
+              <small>Valid until {{ coupon.endDate | date:'mediumDate' }}</small>
+            </div>
+            <div class="genex-coupon-strip__right">
+              <span class="code-label">Code</span>
+              <span class="code-value">{{ coupon.couponCode }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noCoupons>
+        <div class="genex-about__empty-coupons">
+          <i class="fa-regular fa-ticket"></i>
+          <p>No active coupons right now — we'll announce new offers here soon.</p>
+        </div>
+      </ng-template>
+    </div>
+  </section>
+</main>
+
+<!-- footer start -->
+<app-footer-one [primary_style]="true"></app-footer-one>
+<!-- footer end -->

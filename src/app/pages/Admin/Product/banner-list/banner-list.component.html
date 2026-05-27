@@ -1,0 +1,49 @@
+<div class="banner-list-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">Banner List</h1>
+      <p class="page-subtitle">View and manage your promotional banners</p>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button
+      *ngFor="let tab of tabs"
+      [class.active]="activeTab() === tab"
+      (click)="setActiveTab(tab)"
+    >
+      {{ tab }}
+    </button>
+  </div>
+
+  <div class="banner-grid" *ngIf="banners().length > 0; else noBanners">
+    <div class="banner-card" *ngFor="let banner of banners()">
+      <img loading="lazy" [src]="banner.imageUrl" alt="Banner Image" class="banner-image" />
+      <div class="banner-content">
+        <p *ngIf="banner.hyperlink"><a [href]="banner.hyperlink" target="_blank">{{ banner.hyperlink }}</a></p>
+        <p *ngIf="!banner.hyperlink">No hyperlink provided</p>
+        <button class="delete-btn" (click)="openDeleteModal(banner.bannerId)">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noBanners>
+    <div class="no-banners">No banners found for this category.</div>
+  </ng-template>
+
+  <div class="modal-overlay" *ngIf="showDeleteModal()" (click)="closeDeleteModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Confirm Deletion</h2>
+        <button class="close-btn" (click)="closeDeleteModal()">Ã—</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this banner? This action cannot be undone.</p>
+      </div>
+      <div class="modal-actions">
+        <button class="confirm-btn" (click)="confirmDelete()">Confirm</button>
+        <button class="cancel-btn" (click)="closeDeleteModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

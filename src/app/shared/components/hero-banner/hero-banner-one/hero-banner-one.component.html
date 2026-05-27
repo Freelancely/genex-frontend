@@ -1,0 +1,75 @@
+<section class="tp-slider-area p-relative z-index-1">
+  <div class="tp-slider-active tp-slider-variation swiper-container" #swiperContainer>
+    <div class="swiper-wrapper">
+
+      <!-- ===================== Slide 1 ===================== -->
+      <div class="tp-slider-item tp-slider-height d-flex align-items-center swiper-slide"
+           style="background-image: url('assets/img/banner/Banner1.png');
+                  background-size: cover;
+                  background-position: center center;
+                  background-repeat: no-repeat;">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-xl-7 col-lg-8 col-md-10 col-12">
+              <div class="tp-slider-content">
+                <span class="tp-slider-sub-title">New Arrivals 2025</span>
+                <h2 class="tp-slider-title">सजिलो जीवन, खुसी परिवार <br></h2>
+                <p>आधुनिक प्रविधिले जीवन बनाएको छ अझ सरल र आरामदायी</p>
+                <a routerLink="/shop" class="tp-btn">Shop Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== Slide 2 ===================== -->
+      <div class="tp-slider-item tp-slider-height d-flex align-items-center swiper-slide"
+           style="background-image: url('assets/img/banner/Banner2.png');
+                  background-size: cover;
+                  background-position: center center;
+                  background-repeat: no-repeat;">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-xl-7 col-lg-8 col-md-10 col-12">
+              <div class="tp-slider-content">
+                <span class="tp-slider-sub-title">Best Deals</span>
+                <h2 class="tp-slider-title">Genex <br> Appliances</h2>
+                <p>Top brands. Unbeatable prices. <br> Free delivery available.</p>
+                <a routerLink="/shop" class="tp-btn">Explore Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /swiper-wrapper -->
+
+    <!-- ===================== Navigation Arrows ===================== -->
+    <!-- ✅ #prevBtn / #nextBtn are ViewChild refs — no global CSS selector conflict -->
+    <div class="tp-slider-arrow tp-swiper-arrow d-none d-lg-block">
+      <button #prevBtn
+              (click)="goToPrev()"
+              type="button"
+              class="tp-slider-button-prev"
+              aria-label="Previous slide">
+        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 13L1 7L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button #nextBtn
+              (click)="goToNext()"
+              type="button"
+              class="tp-slider-button-next"
+              aria-label="Next slide">
+        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 13L7 7L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- ===================== Pagination Dots ===================== -->
+    <!-- ✅ #paginationEl is a ViewChild ref — scoped to this component only -->
+    <div class="tp-slider-dot tp-swiper-dot" #paginationEl></div>
+
+  </div><!-- /swiper-container -->
+</section>

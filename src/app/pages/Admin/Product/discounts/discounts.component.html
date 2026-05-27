@@ -1,0 +1,51 @@
+<div class="discounts-container">
+  <div class="page-header">
+    <h1 class="page-title">Add Discount</h1>
+    <p class="page-subtitle">Create new discount codes</p>
+  </div>
+
+  <div class="discount-form">
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="discountPercentage">Discount Percentage (%)</label>
+        <input
+          type="number"
+          id="discountPercentage"
+          [(ngModel)]="discount.discountPercentage"
+          name="discountPercentage"
+          min="0"
+          max="100"
+          required
+          placeholder="Enter discount percentage"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="validFrom">Valid From</label>
+        <input
+          type="datetime-local"
+          id="validFrom"
+          [(ngModel)]="validFrom"
+          name="validFrom"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="validTill">Valid Till</label>
+        <input
+          type="datetime-local"
+          id="validTill"
+          [(ngModel)]="validTill"
+          name="validTill"
+          required
+        >
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-button" (click)="resetForm()">Cancel</button>
+        <button type="submit" class="submit-button">Add Discount</button>
+      </div>
+    </form>
+  </div>
+</div>

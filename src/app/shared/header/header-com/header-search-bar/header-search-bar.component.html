@@ -1,0 +1,76 @@
+<div class="hsb p-relative">
+  <form (ngSubmit)="handleSearchSubmit()" autocomplete="off">
+    <div class="hsb__wrapper">
+      <span class="hsb__leading-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M19 19L14.65 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+
+      <input class="hsb__input"
+             type="text"
+             name="searchText"
+             placeholder="Search for products..."
+             [(ngModel)]="searchText"
+             (input)="onSearchInput($event)"
+             (focus)="onSearchFocus()"
+             (blur)="onSearchBlur()"
+             aria-label="Search products">
+
+      <button *ngIf="searchText"
+              type="button"
+              class="hsb__clear"
+              aria-label="Clear search"
+              (click)="clearSearch()">
+        &times;
+      </button>
+
+      <button class="hsb__submit" type="submit" aria-label="Search">
+        Search
+      </button>
+    </div>
+  </form>
+
+  <div class="hsb__suggestions"
+       *ngIf="showSuggestions && searchText.length > 0">
+
+    <ng-container *ngIf="suggestionsLoading; else loaded">
+      <div class="hsb__empty">Searching…</div>
+    </ng-container>
+
+    <ng-template #loaded>
+      <a *ngFor="let p of searchSuggestions"
+         class="hsb__item"
+         [routerLink]="['/shop/shop-details', p.id]"
+         (mousedown)="selectSuggestion()">
+        <img class="hsb__thumb" loading="lazy" [src]="p.img" [alt]="p.title">
+        <div class="hsb__meta">
+          <div class="hsb__title">{{ p.title }}</div>
+          <div class="hsb__price">
+            <ng-container *ngIf="p.discount > 0; else nodisc">
+              <span class="hsb__price-new">{{ (p.price - (p.price * p.discount / 100)) | nprPrice }}</span>
+              <span class="hsb__price-old">{{ p.price | nprPrice }}</span>
+            </ng-container>
+            <ng-template #nodisc>
+              <span class="hsb__price-new">{{ p.price | nprPrice }}</span>
+            </ng-template>
+          </div>
+        </div>
+      </a>
+
+      <div *ngIf="!searchSuggestions.length" class="hsb__empty">
+        No products found for "{{ searchText }}"
+      </div>
+
+      <a *ngIf="searchSuggestions.length"
+         class="hsb__view-all"
+         (mousedown)="selectSuggestion()"
+         [routerLink]="['/pages/search']"
+         [queryParams]="{ searchText: searchText }">
+        View all results &rarr;
+      </a>
+    </ng-template>
+  </div>
+</div>

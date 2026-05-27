@@ -1,0 +1,35 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="tp-login-input-wrapper">
+    <div class="tp-login-input-box">
+      <input type="text" formControlName="firstname" placeholder="First Name" />
+      <div *ngIf="formSubmitted && firstname?.invalid" class="text-danger">First name is required</div>
+    </div>
+    <div class="tp-login-input-box">
+      <input type="text" formControlName="lastname" placeholder="Last Name (optional)" />
+    </div>
+    <div class="tp-login-input-box">
+      <input type="text" formControlName="address" placeholder="Address" />
+      <div *ngIf="formSubmitted && address?.invalid" class="text-danger">Address is required</div>
+    </div>
+    <div class="tp-login-input-box">
+      <input type="email" formControlName="email" placeholder="Email" />
+      <div *ngIf="formSubmitted && email?.invalid" class="text-danger">Valid email is required</div>
+    </div>
+    <div class="tp-login-input-box">
+      <input type="text" formControlName="phoneNumber" placeholder="Phone Number" />
+      <div *ngIf="formSubmitted && phoneNumber?.invalid" class="text-danger">Phone number is required</div>
+    </div>
+    <div class="tp-login-input-box">
+      <input [type]="isShowPass ? 'text' : 'password'" formControlName="password" placeholder="Password" />
+      <div *ngIf="formSubmitted && password?.invalid" class="text-danger">Password is required (min 6 chars)</div>
+    </div>
+    <div class="tp-login-input-box">
+      <input [type]="isShowPass ? 'text' : 'password'" formControlName="confirmPassword" placeholder="Confirm Password" />
+      <div *ngIf="formSubmitted && confirmPassword?.invalid" class="text-danger">Confirm password is required</div>
+      <div *ngIf="formSubmitted && registerForm.errors?.['mismatch']" class="text-danger">Passwords do not match</div>
+    </div>
+  </div>
+  <div class="tp-login-bottom">
+    <button type="submit" class="btn btn-primary w-100">Register</button>
+  </div>
+</form>

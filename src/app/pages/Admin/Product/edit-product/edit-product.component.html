@@ -1,0 +1,162 @@
+<div class="edit-product-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>
+        <span *ngIf="productId">Edit Product</span>
+        <span *ngIf="!productId">Add Product</span>
+      </h1>
+      <p>Fill in the details below to <span *ngIf="productId">update</span><span *ngIf="!productId">create</span> a product.</p>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="form-grid">
+      <!-- Name -->
+      <div class="form-group">
+        <label>Name <span class="mark-required">*</span></label>
+        <input type="text" formControlName="name" class="input-field" placeholder="Enter product name">
+        <div class="error" *ngIf="productForm.get('name')?.errors?.['required'] && productForm.get('name')?.touched">
+          Name is required
+        </div>
+      </div>
+
+      <!-- Category -->
+      <div class="form-group">
+        <label>Category <span class="mark-required">*</span></label>
+        <select formControlName="categoryId" class="input-field" (change)="onCategoryChange($event)" [disabled]="productId !== null">
+          <option value="">Select Category</option>
+          <option *ngFor="let category of categories()" [value]="category.id">{{ category.name }}</option>
+        </select>
+        <div class="error" *ngIf="productForm.get('categoryId')?.errors?.['required'] && productForm.get('categoryId')?.touched">
+          Category is required
+        </div>
+      </div>
+
+      <!-- Subcategory -->
+      <div class="form-group">
+        <label>Subcategory <span class="mark-required">*</span></label>
+        <select formControlName="subCategoryId" class="input-field" (change)="onSubCategoryChange($event)" [disabled]="productId !== null">
+          <option value="">Select Subcategory</option>
+          <option *ngFor="let subCategory of subCategories()" [value]="subCategory.id">{{ subCategory.name }}</option>
+        </select>
+        <div class="error" *ngIf="productForm.get('subCategoryId')?.errors?.['required'] && productForm.get('subCategoryId')?.touched">
+          Subcategory is required
+        </div>
+      </div>
+
+      <!-- Price -->
+      <div class="form-group">
+        <label>Price <span class="mark-required">*</span></label>
+        <input type="number" formControlName="price" class="input-field" placeholder="Enter price" min="0">
+        <div class="error" *ngIf="productForm.get('price')?.errors?.['required'] && productForm.get('price')?.touched">
+          Price is required
+        </div>
+        <div class="error" *ngIf="productForm.get('price')?.errors?.['min'] && productForm.get('price')?.touched">
+          Price cannot be negative
+        </div>
+      </div>
+
+      <!-- Stock -->
+      <div class="form-group">
+        <label>Stock <span class="mark-required">*</span></label>
+        <input type="number" formControlName="stock" class="input-field" placeholder="Enter stock" min="0">
+        <div class="error" *ngIf="productForm.get('stock')?.errors?.['required'] && productForm.get('stock')?.touched">
+          Stock is required
+        </div>
+        <div class="error" *ngIf="productForm.get('stock')?.errors?.['min'] && productForm.get('stock')?.touched">
+          Stock cannot be negative
+        </div>
+      </div>
+
+      <!-- Discount -->
+      <div class="form-group">
+        <label>Discount</label>
+        <select formControlName="discount" class="input-field">
+          <option value="">No Discount</option>
+          <option *ngFor="let discount of discounts()" [value]="discount.discountId">
+            {{ discount.discountPercentage }}% (Valid: {{ discount.validFrom | date:'shortDate' }} - {{ discount.validTill | date:'shortDate' }})
+          </option>
+        </select>
+      </div>
+
+      <!-- Featured -->
+      <div class="form-group flex items-center">
+        <label class="mr-3">Featured</label>
+        <input type="checkbox" formControlName="featured" class="checkbox-field">
+      </div>
+
+      <!-- Description -->
+      <div class="form-group full-width">
+        <label>Description</label>
+        <textarea formControlName="description" class="input-field textarea" placeholder="Enter description"></textarea>
+      </div>
+
+      <!-- Images -->
+      <div class="form-group full-width">
+        <label>Images</label>
+        <div class="image-upload-area" [class.dragging]="isDragging()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+          <input #imageInput type="file" (change)="onImageSelected($event)" accept="image/*" class="hidden" multiple>
+          <p>Drag and drop images here or <span class="text-blue-600 cursor-pointer" (click)="imageInput.click()">click to upload</span></p>
+        </div>
+        <div *ngIf="currentImageUrls().length > 0 || imagePreviews().length > 0" class="image-preview-grid">
+          <!-- Current Images -->
+          <div *ngFor="let url of currentImageUrls(); let i = index" class="image-preview">
+            <img loading="lazy" [src]="url" alt="Product image">
+            <button class="remove-btn" (click)="removeCurrentImage(i)">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <!-- New Image Previews -->
+          <div *ngFor="let preview of imagePreviews(); let i = index" class="image-preview">
+            <img loading="lazy" [src]="preview" alt="New image preview">
+            <button class="remove-btn" (click)="removeImage(i)">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <p class="current-image-note" *ngIf="currentImageUrls().length > 0 || imagePreviews().length > 0">
+          Current images and new uploads (new uploads will replace current images if saved)
+        </p>
+      </div>
+
+      <!-- Attributes -->
+      <div class="form-group full-width" *ngIf="attributes.controls.length > 0">
+        <label>Attributes</label>
+        <div formArrayName="attributes" class="form-group full-width">
+          <div *ngFor="let attr of attributes.controls; let i = index" [formGroupName]="i" class="attribute-group">
+            <label>{{ attr.get('attributeName')?.value }} {{ attr.get('isRequired')?.value ? '*' : '' }}</label>
+            <ng-container [ngSwitch]="attr.get('type')?.value">
+              <select *ngSwitchCase="'dropdown'" formControlName="value" class="input-field">
+                <option value="">Select {{ attr.get('attributeName')?.value }}</option>
+                <option *ngFor="let val of attr.get('possibleValues')?.value" [value]="val">{{ val }}</option>
+              </select>
+              <input *ngSwitchCase="'text'" type="text" formControlName="value" [placeholder]="'Enter ' + attr.get('attributeName')?.value" class="input-field">
+              <div *ngSwitchCase="'checkboxes'" class="checkbox-group">
+                <label *ngFor="let val of attr.get('possibleValues')?.value" class="checkbox-label">
+                  <input type="checkbox" [value]="val" [checked]="attr.get('value')?.value.includes(val)" (change)="onCheckboxChange($event, attr, val)" class="checkbox-field">
+                  <span>{{ val }}</span>
+                </label>
+              </div>
+              <input *ngSwitchDefault type="text" formControlName="value" [placeholder]="'Enter ' + attr.get('attributeName')?.value" class="input-field">
+            </ng-container>
+            <div class="error" *ngIf="attr.get('value')?.errors?.['required'] && attr.get('value')?.touched">
+              {{ attr.get('attributeName')?.value }} is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn-primary" [disabled]="!productForm.valid">Save</button>
+      </div>
+    </div>
+  </form>
+</div>

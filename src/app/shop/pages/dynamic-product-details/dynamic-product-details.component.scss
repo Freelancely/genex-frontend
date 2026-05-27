@@ -1,0 +1,32 @@
+.tp-product-details-area {
+  padding-top: 40px;
+  background: #fff;
+}
+
+.tp-product-details-top {
+  padding-bottom: 80px;
+
+  .row {
+    align-items: stretch;
+  }
+}
+
+.tp-product-details-bottom {
+  background: #f7f9fc;
+  padding: 60px 0 80px;
+  border-top: 1px solid #eef0f2;
+}
+
+::ng-deep {
+  app-shop-details-breadcrumb {
+    display: block;
+    margin-bottom: 40px;
+  }
+
+  .tp-product-details-tab-nav {
+    background: #fff;
+    border-radius: 14px;
+    padding: 32px 28px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+}

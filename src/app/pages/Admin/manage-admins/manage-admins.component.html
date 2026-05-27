@@ -1,0 +1,111 @@
+<div class="manage-admins">
+  <div class="page-header">
+    <div>
+      <h2>Manage Admins</h2>
+      <p class="text-muted">SuperAdmin can add or remove administrator accounts.</p>
+    </div>
+    <button type="button" class="btn-primary" (click)="openForm()" *ngIf="!showForm">
+      <i class="fas fa-plus"></i> Add Admin
+    </button>
+  </div>
+
+  <div class="admin-form-card" *ngIf="showForm">
+    <div class="form-header">
+      <h3>New Admin</h3>
+      <button type="button" class="btn-ghost" (click)="closeForm()"><i class="fas fa-times"></i></button>
+    </div>
+    <form #adminForm="ngForm" (ngSubmit)="submit(adminForm)">
+      <div class="grid">
+        <div class="field">
+          <label>First name *</label>
+          <input type="text" name="firstname" [(ngModel)]="form.firstname" required>
+        </div>
+        <div class="field">
+          <label>Last name</label>
+          <input type="text" name="lastname" [(ngModel)]="form.lastname">
+        </div>
+        <div class="field">
+          <label>Email *</label>
+          <input type="email" name="email" [(ngModel)]="form.email" required email>
+        </div>
+        <div class="field">
+          <label>Phone number *</label>
+          <input type="tel" name="phoneNumber" [(ngModel)]="form.phoneNumber" required pattern="^\d{10}$" maxlength="10">
+        </div>
+        <div class="field span-2">
+          <label>Address *</label>
+          <input type="text" name="address" [(ngModel)]="form.address" required>
+        </div>
+        <div class="field span-2">
+          <label>Password *</label>
+          <input type="password" name="password" [(ngModel)]="form.password" required minlength="8">
+          <small>Min 8 chars with uppercase, lowercase, number & special character.</small>
+        </div>
+        <div class="field span-2">
+          <label>Role *</label>
+          <select name="role" [(ngModel)]="form.role" required>
+            <option *ngFor="let r of assignableRoles" [ngValue]="r.value">{{ r.label }}</option>
+          </select>
+          <small>Determines which admin sections the user can access.</small>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn-ghost" (click)="closeForm()">Cancel</button>
+        <button type="submit" class="btn-primary" [disabled]="submitting">
+          {{ submitting ? 'Saving…' : 'Create Admin' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="admin-table-card">
+    <div class="card-header">
+      <h3>All Administrators</h3>
+      <span class="count-badge">{{ admins.length }} total</span>
+    </div>
+
+    <div class="empty" *ngIf="!loading && !admins.length">
+      <i class="fas fa-user-shield"></i>
+      <p>No administrators yet.</p>
+    </div>
+
+    <div class="loading" *ngIf="loading">Loading administrators…</div>
+
+    <table *ngIf="!loading && admins.length" class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let admin of admins">
+          <td>{{ admin.firstname }} {{ admin.lastname }}</td>
+          <td>{{ admin.email }}</td>
+          <td>{{ admin.phoneNumber || '—' }}</td>
+          <td>
+            <span class="role-badge" [class.super]="admin.role === 'SuperAdmin'">{{ admin.role }}</span>
+          </td>
+          <td>
+            <span class="status-badge" [class.disabled]="admin.isDeleted">
+              {{ admin.isDeleted ? 'Disabled' : 'Active' }}
+            </span>
+          </td>
+          <td class="text-right">
+            <button
+              type="button"
+              class="btn-danger-ghost"
+              [disabled]="admin.role === 'SuperAdmin'"
+              (click)="remove(admin)">
+              <i class="fas fa-trash"></i> Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

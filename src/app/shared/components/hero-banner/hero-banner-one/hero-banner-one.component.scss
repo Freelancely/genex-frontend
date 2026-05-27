@@ -1,0 +1,303 @@
+// ============================================================
+// HERO BANNER SLIDER
+// ============================================================
+
+.tp-slider-area {
+
+  // Main swiper container
+  .tp-slider-active {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+
+    .swiper-wrapper {
+      display: flex;
+      transition-timing-function: ease;
+      position: relative;
+      width: 100%;
+    }
+
+    .swiper-slide {
+      flex-shrink: 0;
+      width: 100%;
+      position: relative;
+      transition-property: transform;
+      // ✅ Fix: slides must NOT be height:100% — use min-height on the item instead
+    }
+  }
+
+  // ✅ RESPONSIVE HEIGHT — replaces the old TS getResponsiveHeight() method
+  .tp-slider-height {
+    min-height: 380px;
+
+    @media (min-width: 576px) {
+      min-height: 440px;
+    }
+
+    @media (min-width: 768px) {
+      min-height: 520px;
+    }
+
+    @media (min-width: 992px) {
+      min-height: 580px;
+    }
+
+    @media (min-width: 1200px) {
+      min-height: 650px;
+    }
+  }
+
+  // Swiper container dimensions
+  .swiper-container {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    z-index: 1;
+  }
+
+  // ============================================================
+  // NAVIGATION ARROWS — ✅ Fixed positioning so they actually work
+  // ============================================================
+  .tp-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 100%;
+    left: 0;
+    pointer-events: none;   // container is non-clickable; buttons inside are
+
+    .tp-slider-button-prev,
+    .tp-slider-button-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;       // ✅ Buttons ARE clickable
+      transition: all 0.25s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.8);
+        transform: translateY(-50%) scale(1.08);
+      }
+
+      &:active {
+        transform: translateY(-50%) scale(0.95);
+      }
+
+      &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      &:focus-visible {
+        outline: 3px solid rgba(255, 255, 255, 0.8);
+        outline-offset: 2px;
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
+        fill: none;
+        stroke: currentColor;
+        flex-shrink: 0;
+      }
+    }
+
+    .tp-slider-button-prev {
+      left: 20px;
+    }
+
+    .tp-slider-button-next {
+      right: 20px;
+    }
+  }
+
+  // Tablet arrow sizing
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .tp-slider-button-prev,
+    .tp-slider-button-next {
+      width: 44px;
+      height: 44px;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    .tp-slider-button-prev { left: 16px; }
+    .tp-slider-button-next { right: 16px; }
+  }
+
+  // Desktop arrow sizing
+  @media (min-width: 1200px) {
+    .tp-slider-button-prev,
+    .tp-slider-button-next {
+      width: 54px;
+      height: 54px;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .tp-slider-button-prev { left: 28px; }
+    .tp-slider-button-next { right: 28px; }
+  }
+
+  // ============================================================
+  // PAGINATION DOTS
+  // ============================================================
+  .tp-slider-dot {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    .swiper-pagination-bullet {
+      width: 10px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      display: block;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      &.swiper-pagination-bullet-active {
+        background: #ffffff;
+        width: 24px;
+        border-radius: 5px;
+      }
+
+      &:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.8);
+        outline-offset: 2px;
+      }
+    }
+  }
+}
+
+// ============================================================
+// SLIDE CONTENT TYPOGRAPHY
+// ============================================================
+.tp-slider-content {
+  padding: 20px 0;
+  position: relative;
+  z-index: 5;
+
+  .tp-slider-sub-title {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 6px 18px;
+    border-radius: 30px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .tp-slider-title {
+    font-size: clamp(26px, 4.5vw, 58px);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: clamp(14px, 1.6vw, 17px);
+    line-height: 1.65;
+    margin-bottom: 32px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .tp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 34px;
+    background: #ffffff;
+    color: #111111;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background: transparent;
+      color: #ffffff;
+      border-color: #ffffff;
+      box-shadow: none;
+    }
+  }
+}
+
+// ============================================================
+// MOBILE — hide arrows, keep dots
+// ============================================================
+@media (max-width: 767px) {
+  .tp-slider-area {
+    .tp-slider-arrow {
+      display: none !important;
+    }
+
+    .tp-slider-dot {
+      bottom: 14px;
+
+      .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+
+        &.swiper-pagination-bullet-active {
+          width: 20px;
+        }
+      }
+    }
+  }
+
+  .tp-slider-content {
+    text-align: center;
+
+    .tp-btn {
+      padding: 11px 28px;
+      font-size: 13px;
+    }
+  }
+}

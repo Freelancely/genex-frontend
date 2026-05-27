@@ -1,0 +1,149 @@
+.profile__tab-logout {
+  color: #dc2626 !important;
+  border-top: 1px dashed #fecaca;
+  margin-top: 12px;
+  padding-top: 14px !important;
+
+  &:hover {
+    color: #fff !important;
+    background: #dc2626 !important;
+  }
+
+  span {
+    color: inherit !important;
+  }
+}
+
+.profile__main-thumb-placeholder {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0989FF 0%, #005fcc 100%);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 2.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.profile__main-email {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 4px 0 0;
+}
+
+.profile__selected-file {
+  background-color: #f5f7fa;
+  border: 1px dashed #d0d7de;
+  padding: 10px 16px;
+  border-radius: 8px;
+
+  small {
+    color: #555;
+  }
+
+  .tp-btn-sm {
+    padding: 6px 14px;
+    font-size: 12px;
+    height: auto;
+    line-height: 1.2;
+  }
+
+  .tp-btn-border {
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #d0d7de;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+}
+
+.profile__empty-orders {
+  padding: 24px 12px;
+}
+
+.profile__order-id {
+  font-family: monospace;
+  font-weight: 600;
+  color: #1a73e8;
+}
+
+.profile__order-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.profile__order-product-name {
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 14px;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile__payment-badge {
+  background-color: #eef2ff;
+  color: #4338ca;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.profile__status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  line-height: 1.4;
+
+  &.status-placed {
+    background-color: #fff4e5;
+    color: #b26a00;
+  }
+
+  &.status-confirmed {
+    background-color: #e3f2fd;
+    color: #1565c0;
+  }
+
+  &.status-shipped {
+    background-color: #ede7f6;
+    color: #6a1b9a;
+  }
+
+  &.status-delivered {
+    background-color: #e6f4ea;
+    color: #137333;
+  }
+
+  &.status-cancelled {
+    background-color: #fdecea;
+    color: #c5221f;
+  }
+
+  &.status-failed {
+    background-color: #fdecea;
+    color: #c5221f;
+  }
+
+  &.status-default {
+    background-color: #f1f3f4;
+    color: #5f6368;
+  }
+}

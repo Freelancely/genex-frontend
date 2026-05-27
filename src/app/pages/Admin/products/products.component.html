@@ -1,0 +1,325 @@
+<div class="products-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">Products Management</h1>
+      <p class="page-subtitle">Manage your electronics inventory and product catalog</p>
+    </div>
+    <button class="btn-primary" (click)="openAddProductModal()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Add Product
+    </button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon products-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3>{{ totalProducts() }}</h3>
+        <p>Total Products</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orders-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3>{{ lowStockProducts() }}</h3>
+        <p>Low Stock Items</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon customers-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3>{{ subCategories().length }}</h3>
+        <p>Sub-Categories</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon conversion-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="1" x2="12" y2="23"></line>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3>Nrs.{{ totalValue().toLocaleString() }}</h3>
+        <p>Inventory Value</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="filters-section">
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="M21 21l-4.35-4.35"></path>
+      </svg>
+      <input type="text" placeholder="Search products..." [(ngModel)]="searchTerm" (input)="onSearch()">
+    </div>
+    <div class="filter-controls">
+      <select [(ngModel)]="selectedSubCategory" (change)="onSubCategoryFilter()">
+        <option value="">All Sub-Categories</option>
+        <option *ngFor="let subCat of subCategories()" [value]="subCat.id">{{ subCat.name }}</option>
+      </select>
+      <select [(ngModel)]="selectedStatus" (change)="onStatusFilter()">
+        <option value="">All Status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="out-of-stock">Out of Stock</option>
+      </select>
+      <select [(ngModel)]="sortBy" (change)="onSort()">
+        <option value="name">Sort by Name</option>
+        <option value="price">Sort by Price</option>
+        <option value="stock">Sort by Stock</option>
+        <option value="sales">Sort by Sales</option>
+        <option value="createdAt">Sort by Date</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="products-table-container">
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Sub-Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Sales</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let product of filteredProducts() | slice:((pageNumber-1)*pageSize):pageNumber*pageSize; trackBy: trackByProductId"
+          [class.low-stock]="product.stock < 10">
+          <td class="product-cell">
+            <div class="product-info">
+              <img loading="lazy"
+                [src]="product.images[0] || 'assets/placeholder.jpg'"
+                [alt]="product.name"
+                class="product-image">
+              <div class="product-details">
+                <h4>{{ product.name }}</h4>
+                <p>{{ product.description }}</p>
+                <span *ngIf="product.featured" class="featured-badge">Featured</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="category-badge">{{ product.subCategoryName || 'N/A' }}</span>
+          </td>
+          <td class="price-cell">Nrs.{{ product.price.toLocaleString() }}</td>
+          <td class="stock-cell">
+            <span class="stock-value" [class.low-stock]="product.stock < 10">{{ product.stock }}</span>
+            <span *ngIf="product.stock < 10" class="low-stock-warning">âš ï¸</span>
+          </td>
+          <td>{{ product.sales || 0 }}</td>
+          <td>
+            <span class="status-badge" [class]="product.status">{{ getStatusText(product.status || 'active') }}</span>
+          </td>
+          <td class="actions-cell">
+            <button class="action-btn edit" (click)="editProduct(product)" title="Edit">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
+            <button class="action-btn delete" (click)="deleteProduct(product)" title="Delete">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3,6 5,6 21,6"></polyline>
+                <path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2V6"></path>
+              </svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="filteredProducts().length === 0" class="no-products-message">
+      No products available. Add a new product to get started!
+    </div>
+  </div>
+
+  <div class="pagination">
+    <div class="pagination-info">
+      Showing {{ ((pageNumber - 1) * pageSize) + 1 }} to
+      {{ Math.min(pageNumber * pageSize, totalCount()) }}
+      of {{ totalCount() }} products
+    </div>
+    <div class="pagination-controls">
+      <button class="pagination-btn" [disabled]="pageNumber === 1" (click)="previousPage()">
+        Previous
+      </button>
+      <span class="page-numbers">
+        <button *ngFor="let page of getPageNumbers()" class="page-btn" [class.active]="page === pageNumber"
+          (click)="goToPage(page)">
+          {{ page }}
+        </button>
+      </span>
+      <button class="pagination-btn" [disabled]="pageNumber === totalPages()" (click)="nextPage()">
+        Next
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ isEditMode ? 'Edit Product' : 'Add New Product' }}</h2>
+        <button class="close-btn" (click)="closeModal()">Ã—</button>
+      </div>
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="modal-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Product Name *</label>
+            <input type="text" formControlName="name" placeholder="Enter product name" class="input-field">
+            <div class="error" *ngIf="productForm.get('name')?.errors?.['required'] && productForm.get('name')?.touched">
+              Product name is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Category *</label>
+            <select formControlName="categoryId" (change)="onCategoryChange($event)" class="input-field">
+              <option value="">Select Category</option>
+              <option *ngFor="let category of categories()" [value]="category.id">{{ category.name }}</option>
+            </select>
+            <div class="error" *ngIf="productForm.get('categoryId')?.errors?.['required'] && productForm.get('categoryId')?.touched">
+              Category is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Sub Category *</label>
+            <select formControlName="subCategoryId" (change)="onSubCategoryChange($event)" class="input-field">
+              <option value="">Select Sub Category</option>
+              <option *ngFor="let subCategory of subCategories()" [value]="subCategory.id">{{ subCategory.name }}</option>
+            </select>
+            <div class="error" *ngIf="productForm.get('subCategoryId')?.errors?.['required'] && productForm.get('subCategoryId')?.touched">
+              Sub Category is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Price *</label>
+            <input type="number" formControlName="price" placeholder="Enter price" class="input-field">
+            <div class="error" *ngIf="productForm.get('price')?.errors?.['required'] && productForm.get('price')?.touched">
+              Price is required
+            </div>
+            <div class="error" *ngIf="productForm.get('price')?.errors?.['min'] && productForm.get('price')?.touched">
+              Price must be greater than or equal to 0
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Stock *</label>
+            <input type="number" formControlName="stock" placeholder="Enter stock quantity" class="input-field">
+            <div class="error" *ngIf="productForm.get('stock')?.errors?.['required'] && productForm.get('stock')?.touched">
+              Stock is required
+            </div>
+            <div class="error" *ngIf="productForm.get('stock')?.errors?.['min'] && productForm.get('stock')?.touched">
+              Stock must be greater than or equal to 0
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label>Description</label>
+            <textarea formControlName="description" placeholder="Enter product description" class="input-field textarea"></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label>Product Images * (Drag and drop or click to upload)</label>
+            <div class="image-upload-container"
+                 (dragover)="onDragOver($event)"
+                 (dragleave)="onDragLeave($event)"
+                 (drop)="onDrop($event)"
+                 [class.drag-over]="isDragging">
+              <input type="file"
+                     accept="image/*"
+                     (change)="onImageSelected($event)"
+                     #imageInput
+                     class="input-file"
+                     multiple
+                     id="imageInput">
+              <label for="imageInput" class="upload-label">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <span>Drag and drop images here or click to upload</span>
+              </label>
+            </div>
+            <div class="image-preview-container" *ngIf="imagePreviews.length > 0">
+              <div class="image-preview" *ngFor="let preview of imagePreviews; let i = index">
+                <img loading="lazy" [src]="preview" [alt]="'Preview ' + i" class="preview-image">
+                <button type="button" class="remove-image-btn" (click)="removeImage(i)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="error" *ngIf="!isEditMode && selectedFiles.length === 0 && productForm.touched">
+              At least one product image is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Discount</label>
+            <select formControlName="discount" class="input-field">
+              <option value="">No Discount</option>
+              <option *ngFor="let discount of discounts()" [value]="discount.discountId">
+                {{ discount.discountPercentage }}% (Valid: {{ discount.validFrom | date:'shortDate' }} - {{ discount.validTill | date:'shortDate' }})
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Featured</label>
+            <input type="checkbox" formControlName="featured" class="checkbox-field">
+          </div>
+          <div formArrayName="attributes" class="form-group full-width" *ngIf="attributes.controls.length > 0">
+            <div *ngFor="let attr of attributes.controls; let i = index" [formGroupName]="i" class="attribute-group">
+              <label>{{ attr.get('attributeName')?.value }} {{ attr.get('isRequired')?.value ? '*' : '' }}</label>
+              <ng-container [ngSwitch]="attr.get('type')?.value">
+                <select *ngSwitchCase="'dropdown'" formControlName="value" class="input-field">
+                  <option value="">Select {{ attr.get('attributeName')?.value }}</option>
+                  <option *ngFor="let val of attr.get('possibleValues')?.value" [value]="val">{{ val }}</option>
+                </select>
+                <input *ngSwitchCase="'text'" type="text" formControlName="value" [placeholder]="'Enter ' + attr.get('attributeName')?.value" class="input-field">
+                <div *ngSwitchCase="'checkboxes'" class="checkbox-group">
+                  <label *ngFor="let val of attr.get('possibleValues')?.value" class="checkbox-label">
+                    <input type="checkbox" [value]="val" [checked]="attr.get('value')?.value.includes(val)" (change)="onCheckboxChange($event, attr, val)">
+                    <span class="checkmark"></span>
+                    {{ val }}
+                  </label>
+                </div>
+                <input *ngSwitchDefault type="text" formControlName="value" [placeholder]="'Enter ' + attr.get('attributeName')?.value" class="input-field">
+              </ng-container>
+              <div class="error" *ngIf="attr.get('value')?.errors?.['required'] && attr.get('value')?.touched">
+                {{ attr.get('attributeName')?.value }} is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" [disabled]="!productForm.valid" class="btn-primary">Add Product</button>
+          <button type="button" (click)="closeModal()" class="btn-secondary">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

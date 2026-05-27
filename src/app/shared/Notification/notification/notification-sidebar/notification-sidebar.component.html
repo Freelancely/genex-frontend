@@ -1,0 +1,20 @@
+<div class="tp-notification-sidebar" [ngClass]="{'open': isSidebarOpen}">
+  <div class="tp-notification-sidebar-header">
+    <h3>Notifications</h3>
+    <button (click)="toggleSidebar()" aria-label="Close notification sidebar">Close</button>
+  </div>
+  <div class="tp-notification-sidebar-content">
+    <div *ngFor="let notification of notifications" class="notification-item" [ngClass]="{'read': notification.isRead}">
+      <h4>{{ notification.title }}</h4>
+      <p>{{ notification.message }}</p>
+      <p>{{ notification.dateAndTime | date: 'medium' }}</p>
+      <div class="notification-actions">
+        <button *ngIf="!notification.isRead" (click)="markAsRead(notification.notificationId)" aria-label="Mark notification as read">Mark as Read</button>
+        <button (click)="deleteNotification(notification.notificationId)" aria-label="Delete notification">Delete</button>
+      </div>
+    </div>
+    <div *ngIf="!notifications.length" class="no-notifications">
+      <p>No notifications available.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="tp-product-banner-area pb-90">
+  <div class="container">
+    <div class="tp-product-banner-slider fix">
+      <div class="tp-product-banner-slider-active swiper-container" #swiperContainer>
+        <div class="swiper-wrapper">
+          <div *ngFor="let item of productBannerData(); let i = index"
+               class="tp-product-banner-inner swiper-slide"
+               [class.image-loaded]="isImageLoaded(item.imageUrl)"
+               [class.image-loading]="!isImageLoaded(item.imageUrl)">
+
+            <!-- Loading indicator -->
+            <div class="banner-loading-indicator"
+                 *ngIf="!isImageLoaded(item.imageUrl)"
+                 aria-label="Loading banner image">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading banner...</span>
+              </div>
+              <p class="loading-text">Loading banner...</p>
+            </div>
+
+            <!-- Banner content -->
+            <div class="tp-product-banner-content"
+                 *ngIf="isImageLoaded(item.imageUrl)"
+                 [style.opacity]="isImageLoaded(item.imageUrl) ? '1' : '0'">
+
+              <a *ngIf="item.hyperlink; else imageOnly"
+                 [href]="item.hyperlink"
+                 (click)="onBannerClick(item, $event)"
+                 class="banner-link"
+                 [attr.aria-label]="'Banner ' + (i + 1) + ' - Click to learn more'">
+                <img [src]="item.imageUrl"
+                     [alt]="'Product banner ' + (i + 1)"
+                     class="banner-image"
+                     (load)="onImageLoad(item.imageUrl, $event)"
+                     (error)="onImageError(item.imageUrl, $event)"
+                     loading="lazy">
+              </a>
+
+              <ng-template #imageOnly>
+                <div class="banner-image-wrapper"
+                     [attr.aria-label]="'Product banner ' + (i + 1)">
+                  <img [src]="item.imageUrl"
+                       [alt]="'Product banner ' + (i + 1)"
+                       class="banner-image"
+                       (load)="onImageLoad(item.imageUrl, $event)"
+                       (error)="onImageError(item.imageUrl, $event)"
+                       loading="lazy">
+                </div>
+              </ng-template>
+            </div>
+
+            <!-- Hidden preload image for loading detection -->
+            <img loading="lazy" [src]="item.imageUrl"
+                 (load)="onImageLoad(item.imageUrl, $event)"
+                 (error)="onImageError(item.imageUrl, $event)"
+                 style="position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px;"
+                 [alt]="'Preload banner ' + (i + 1)">
+          </div>
+        </div>
+
+        <!-- Pagination dots - Only show if more than 1 banner -->
+        <div class="tp-product-banner-slider-dot tp-swiper-dot"
+             *ngIf="productBannerData().length > 1"></div>
+      </div>
+    </div>
+  </div>
+</div>

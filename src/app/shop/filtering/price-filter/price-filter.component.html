@@ -1,0 +1,55 @@
+<div class="tp-shop-widget-content price-filter">
+  <div class="price-filter-inputs">
+    <div class="price-field">
+      <label for="price-min">Min</label>
+      <div class="price-input">
+        <span class="prefix">Npr.</span>
+        <input
+          id="price-min"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          maxlength="12"
+          [value]="minInput"
+          (input)="onInput('min', $any($event.target).value)"
+          (keydown)="onKeydown($event)"
+          (paste)="onPaste($event, 'min')"
+          (keyup.enter)="applyFilter()"
+          [attr.placeholder]="apiMin"
+        >
+      </div>
+    </div>
+
+    <div class="price-field">
+      <label for="price-max">Max</label>
+      <div class="price-input">
+        <span class="prefix">Npr.</span>
+        <input
+          id="price-max"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          maxlength="12"
+          [value]="maxInput"
+          (input)="onInput('max', $any($event.target).value)"
+          (keydown)="onKeydown($event)"
+          (paste)="onPaste($event, 'max')"
+          (keyup.enter)="applyFilter()"
+          [attr.placeholder]="apiMax"
+        >
+      </div>
+    </div>
+  </div>
+
+  <p class="price-hint" *ngIf="!errorMessage">
+    Allowed range: Npr.{{ apiMin }} – Npr.{{ apiMax }}
+  </p>
+  <p class="price-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="price-filter-actions">
+    <button type="button" class="tp-shop-widget-filter-btn" (click)="applyFilter()" [disabled]="!!errorMessage">
+      Apply
+    </button>
+    <button type="button" class="price-reset-btn" (click)="reset()">Reset</button>
+  </div>
+</div>

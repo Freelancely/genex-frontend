@@ -1,0 +1,114 @@
+<div class="add-sub-category-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4B5EFC" stroke-width="2" class="title-icon">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        {{ isEditMode ? 'Edit Category' : 'Add New Category' }}
+      </h1>
+    </div>
+    <button class="btn-secondary" (click)="cancel()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" class="btn-icon">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Back
+    </button>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="subCategoryForm" (ngSubmit)="onSubmit()" class="form-container">
+      <div class="form-section">
+        <div class="form-group">
+          <label for="subCategoryName">Category Name <span class="required">*</span></label>
+          <input id="subCategoryName" type="text" formControlName="name" placeholder="e.g., Refrigerators" [class.error]="subCategoryForm.get('name')?.invalid && subCategoryForm.get('name')?.touched">
+          <div class="error-message" *ngIf="subCategoryForm.get('name')?.errors?.['required'] && subCategoryForm.get('name')?.touched">
+            Category name is required.
+          </div>
+          <div class="error-message" *ngIf="subCategoryForm.get('name')?.errors?.['minlength'] && subCategoryForm.get('name')?.touched">
+            Name must be at least 2 characters.
+          </div>
+          <div class="error-message" *ngIf="subCategoryForm.get('name')?.errors?.['maxlength'] && subCategoryForm.get('name')?.touched">
+            Name cannot exceed 50 characters.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="categoryId">Brand <span class="required">*</span></label>
+          <select id="categoryId" formControlName="categoryId" [class.error]="subCategoryForm.get('categoryId')?.invalid && subCategoryForm.get('categoryId')?.touched">
+            <option value="" disabled>Select a brand</option>
+            <option *ngFor="let category of categories()" [value]="category.id" [selected]="category.id === subCategoryForm.get('categoryId')?.value">{{ category.name }}</option>
+          </select>
+          <div class="error-message" *ngIf="subCategoryForm.get('categoryId')?.errors?.['required'] && subCategoryForm.get('categoryId')?.touched">
+            Brand is required.
+          </div>
+        </div>
+      </div>
+      <div class="form-section attributes-section">
+        <div class="section-header">
+          <label>Attributes</label>
+          <button type="button" class="btn-add" (click)="addAttribute()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" class="btn-icon">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Add Attribute
+          </button>
+        </div>
+        <div class="attributes-list" *ngFor="let attr of attributes(); let i = index; trackBy: trackByIndex">
+    <div class="attribute-card">
+      <input
+        type="text"
+        placeholder="e.g., Color"
+        [(ngModel)]="attr.attributeName"
+        [ngModelOptions]="{standalone: true}"
+        (blur)="onAttributeBlur(i, 'attributeName')"
+        required>
+      <input
+        *ngIf="attr.type === 'dropdown' || attr.type === 'checkboxes'"
+        type="text"
+        placeholder="e.g., Red, Blue, Green"
+        [(ngModel)]="attr.possibleValuesString"
+        [ngModelOptions]="{standalone: true}"
+        (ngModelChange)="updateValues(i, $event)"
+        (blur)="onAttributeBlur(i, 'possibleValuesString')"
+        required>
+      <select [(ngModel)]="attr.type" [ngModelOptions]="{standalone: true}" (change)="onTypeChange(i)">
+        <option value="dropdown">Dropdown</option>
+        <option value="checkboxes">Checkboxes</option>
+        <option value="string">String</option>
+      </select>
+      <label>
+        <input type="checkbox" [(ngModel)]="attr.isRequired" [ngModelOptions]="{standalone: true}"> Required
+      </label>
+      <button type="button" class="btn-remove" (click)="removeAttribute(i)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" class="btn-icon">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Remove
+      </button>
+    </div>
+    <div class="error-message" *ngIf="!attr.attributeName && attributes().length > 0">
+      Attribute name is required.
+    </div>
+    <div class="error-message" *ngIf="attr.type !== 'string' && (attr.possibleValuesJson?.length ?? 0) === 0 && attributes().length > 0">
+      At least one possible value is required for Dropdown or Checkboxes.
+    </div>
+  </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="cancel()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" class="btn-icon">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Cancel
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="isSubmitDisabled()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" class="btn-icon">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

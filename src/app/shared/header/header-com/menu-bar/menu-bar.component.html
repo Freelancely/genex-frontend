@@ -1,0 +1,53 @@
+<ul>
+  <li *ngFor="let item of menu_data; let i = index" [ngClass]="{'has-dropdown': item.drop_down, 'has-mega-menu': item.mega_menu && item.home_pages && item.home_pages.length}">
+    <a [routerLink]="item.link">{{ item.title }}</a>
+    <div *ngIf="item.home_pages && item.home_pages.length" class="home-menu tp-submenu tp-mega-menu">
+      <div class="row row-cols-1 row-cols-lg-4 row-cols-xl-4">
+        <div *ngFor="let home of item.home_pages; let i = index" class="col">
+          <div class="home-menu-item">
+            <a [routerLink]="home.link">
+              <div class="home-menu-thumb p-relative fix">
+                <img loading="lazy" [src]="home.img" alt="image" />
+              </div>
+              <div class="home-menu-content">
+                <h5 class="home-menu-title">{{ home.title }}</h5>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div *ngIf="item.shop_mega_menus" class="shop-mega-menu tp-submenu tp-mega-menu">
+      <div class="row">
+        <div *ngFor="let shop_m of item.shop_mega_menus; let i = index" class="col-lg-2">
+          <div class="shop-mega-menu-list">
+            <a [routerLink]="shop_m.link" class="shop-mega-menu-title">{{ shop_m.title }}</a>
+            <ul>
+              <li *ngFor="let shop_sm of shop_m.list_menus; let i = index">
+                <a [routerLink]="shop_sm.link">{{ shop_sm.title }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <ul *ngIf="item.product_menus" class="tp-submenu tp-mega-menu mega-menu-style-2">
+      <li *ngFor="let prd_m of item.product_menus; let i = index" class="has-dropdown">
+        <a routerLink="/shop" class="mega-menu-title">Shop Page</a>
+        <ul class="tp-submenu">
+          <li *ngFor="let prd_sm of prd_m.dropdown_menus; let i = index">
+            <a [routerLink]="prd_sm.link">{{ prd_sm.title }}</a>
+          </li>
+        </ul>
+      </li>
+    </ul> -->
+
+    <!-- <ul *ngIf="item.drop_down" class="tp-submenu">
+      <li *ngFor="let drop_m of item.dropdown_menus; let i = index">
+        <a [routerLink]="drop_m.link">{{ drop_m.title }}</a>
+      </li>
+    </ul> -->
+  </li>
+</ul>

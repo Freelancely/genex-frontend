@@ -1,0 +1,152 @@
+<div class="tp-product-details-wrapper has-sticky">
+  <div class="tp-product-details-category">
+    <span>{{ product.category.name }}</span>
+  </div>
+  <h3 class="tp-product-details-title">{{ product.title }}</h3>
+
+  <!-- inventory details -->
+  <div class="tp-product-details-inventory d-flex align-items-center mb-10">
+    <div class="tp-product-details-stock mb-10">
+      <span>{{ product.status }}</span>
+    </div>
+    <div class="tp-product-details-rating-wrapper d-flex align-items-center mb-10">
+      <div class="tp-product-details-rating">
+        <span><i class="fa-solid fa-star"></i></span>
+        <span><i class="fa-solid fa-star"></i></span>
+        <span><i class="fa-solid fa-star"></i></span>
+        <span><i class="fa-solid fa-star"></i></span>
+        <span><i class="fa-solid fa-star"></i></span>
+      </div>
+      <div class="tp-product-details-reviews">
+        <span>({{ product.reviews?.length }} Reviews)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conditionally show description and See more/See less button -->
+  <p *ngIf="product.description && product.description !== 'null'">
+    {{ textMore ? product.description : (product.description.substring(0, 100) + '...') }}
+    <span (click)="handleTextToggle()" *ngIf="product.description.length > 100">
+      {{ textMore ? 'See less' : 'See more' }}
+    </span>
+  </p>
+
+  <!-- price -->
+  <div class="tp-product-details-price-wrapper mb-20">
+    <div *ngIf="product.discount > 0">
+      <span class="tp-product-details-price old-price">Npr.{{ product.price }}</span>
+      <span class="tp-product-details-price new-price">
+        Npr.{{ product.discountedPrice || ((product.price || 0) - ((product.price || 0) * (product.discount || 0)) / 100).toFixed(2) }}
+      </span>
+    </div>
+    <span *ngIf="product.discount <= 0" class="tp-product-details-price">
+      Npr.{{ (product.price || 0).toFixed(2) }}
+    </span>
+  </div>
+
+  <div class="tp-product-details-stock mb-10 d-flex align-items-center">
+    <ng-container *ngIf="product.quantity > 0; else outOfStock">
+      <span class="stock-status" [ngClass]="{
+        'in-stock': product.quantity > 5,
+        'low-stock': product.quantity <= 5 && product.quantity > 0
+      }">
+        <i class="fa-solid" [ngClass]="{
+          'fa-check-circle': product.quantity > 5,
+          'fa-exclamation-circle': product.quantity <= 5 && product.quantity > 0
+        }"></i>
+        {{ product.quantity > 5 ? 'In Stock' : 'Low Stock' }} ({{ product.quantity }} left)
+      </span>
+    </ng-container>
+    <ng-template #outOfStock>
+      <span class="stock-status out-of-stock">
+        <i class="fa-solid fa-times-circle"></i> Out of Stock
+      </span>
+    </ng-template>
+  </div>
+
+  <!-- attributes -->
+  <div class="tp-product-details-attributes mb-20">
+    <h4 class="tp-product-details-attributes-title">Specifications:</h4>
+    <ul class="tp-product-details-attributes-list">
+      <li *ngFor="let attr of product.attributes || []">
+        {{ attr.productAttributeName }}: {{ attr.productAttributeValue }}
+      </li>
+      <li *ngIf="!(product.attributes && product.attributes.length)">No specifications available</li>
+    </ul>
+  </div>
+
+  <!-- product countdown start -->
+  <div *ngIf="product?.offerDate?.endDate">
+    <div class="tp-product-details-countdown d-flex align-items-center justify-content-between flex-wrap mt-25 mb-25">
+      <h4 class="tp-product-details-countdown-title">
+        <i class="fa-solid fa-fire-flame-curved"></i> Flash Sale end in:
+      </h4>
+      <div class="tp-product-details-countdown-time">
+        <app-countdown-timer [date]="product.offerDate?.endDate!"></app-countdown-timer>
+      </div>
+    </div>
+  </div>
+  <!-- product countdown end -->
+
+  <!-- actions -->
+  <div class="tp-product-details-action-wrapper">
+    <h3 class="tp-product-details-action-title">Quantity</h3>
+    <div class="tp-product-details-action-item-wrapper d-flex align-items-center">
+      <div class="tp-product-details-quantity">
+        <div class="tp-product-quantity mb-15 mr-15">
+          <span (click)="decrementQty()" class="tp-cart-minus" role="button" aria-label="Decrease quantity">
+            <svg width="11" height="2" viewBox="0 0 11 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <input class="tp-cart-input" type="text" [value]="cartService.orderQuantity" readonly>
+          <span (click)="incrementQty()" class="tp-cart-plus" role="button" aria-label="Increase quantity">
+            <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 6H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5.5 10.5V1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div class="tp-product-details-add-to-cart mb-15 w-100">
+        <button (click)="cartService.addCartProduct(product)" class="tp-product-details-add-to-cart-btn w-100">Add To Cart</button>
+      </div>
+    </div>
+    <button (click)="handleBuyNow()" [disabled]="isBuyNowLoading" class="tp-product-details-buy-now-btn w-100 text-center" style="border: none; cursor: pointer;">
+      {{ isBuyNowLoading ? 'Loading...' : 'Proceed to Checkout' }}
+    </button>
+  </div>
+
+  <div *ngIf="isShowBottom">
+    <div class="tp-product-details-action-sm">
+      <div class="tp-product-details-query">
+        <div class="tp-product-details-query-item d-flex align-items-center">
+          <span>Category: </span>
+          <p>{{ product.parent }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="tp-product-details-query">
+      </div>
+      <div class="tp-product-details-social">
+        <span>Share:</span>
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#"><i class="fa-brands fa-vimeo-v"></i></a>
+      </div>
+      <div class="tp-product-details-msg mb-15">
+        <ul>
+          <li>30 days easy returns</li>
+          <li>Order yours before 2.30pm for same day dispatch</li>
+        </ul>
+      </div>
+      <div class="tp-product-details-payment d-flex align-items-center flex-wrap justify-content-between">
+        <p>Guaranteed safe <br> & secure checkout</p>
+        <img loading="lazy" src="/assets/img/product/icons/payment-option.png" alt="">
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,313 @@
+.genex-about {
+  background: #ffffff;
+  color: #0c1d3f;
+}
+
+.genex-about__eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #0989ff;
+  margin-bottom: 14px;
+}
+
+.genex-about__heading {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #0c1d3f;
+  margin-bottom: 20px;
+  letter-spacing: -0.6px;
+
+  @media (max-width: 767.98px) {
+    font-size: 30px;
+  }
+}
+
+.genex-about__section-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0c1d3f;
+  line-height: 1.2;
+  margin-bottom: 0;
+
+  @media (max-width: 767.98px) {
+    font-size: 26px;
+  }
+}
+
+// Intro
+.genex-about__intro-text {
+  p {
+    color: #4a5260;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 26px;
+  }
+}
+
+.genex-about__intro-points {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .genex-about__intro-point {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #0c1d3f;
+    font-weight: 500;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #0989ff;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.genex-about__intro-visual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px;
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px;
+    border-radius: 16px;
+    min-height: 180px;
+    font-weight: 600;
+
+    i {
+      font-size: 28px;
+      margin-bottom: auto;
+    }
+
+    span {
+      font-size: 15px;
+      letter-spacing: 0.2px;
+    }
+  }
+
+  .panel--primary {
+    background: #0c1d3f;
+    color: #ffffff;
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    min-height: 100%;
+  }
+
+  .panel--muted {
+    background: #f5f7fb;
+    color: #0c1d3f;
+  }
+
+  .panel--accent {
+    background: rgba(9, 137, 255, 0.1);
+    color: #0989ff;
+
+    i { color: #0989ff; }
+  }
+}
+
+// Values
+.genex-about__values {
+  background: #f9fafc;
+  padding-top: 100px;
+  padding-bottom: 100px;
+
+  .genex-value-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 28px 24px;
+    height: 100%;
+    border: 1px solid #edf0f4;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      border-color: #0989ff;
+      box-shadow: 0 18px 40px rgba(9, 137, 255, 0.08);
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(9, 137, 255, 0.1);
+      color: #0989ff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 18px;
+    }
+
+    h5 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #0c1d3f;
+    }
+
+    p {
+      color: #55595f;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Stats
+.genex-about__stats {
+  background: #0c1d3f;
+  color: #ffffff;
+  padding: 60px 0;
+}
+
+.genex-about__stats-grid {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.genex-about__stat {
+  text-align: center;
+  padding: 20px 10px;
+  position: relative;
+
+  h4 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+
+    @media (max-width: 767.98px) {
+      font-size: 26px;
+    }
+  }
+
+  span {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+  }
+}
+
+// Coupons
+.genex-about__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #0989ff;
+
+  i {
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    color: #0c1d3f;
+    i {
+      transform: translateX(4px);
+    }
+  }
+}
+
+.genex-coupon-strip {
+  background: #fff;
+  border: 1px dashed #c4cdd9;
+  border-radius: 14px;
+  padding: 22px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  height: 100%;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+
+  &:hover {
+    border-color: #0989ff;
+    box-shadow: 0 14px 34px rgba(9, 137, 255, 0.08);
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .tag {
+      align-self: flex-start;
+      background: rgba(9, 137, 255, 0.12);
+      color: #0989ff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    h5 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+      color: #0c1d3f;
+    }
+
+    small {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+
+    .code-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #6b7280;
+    }
+
+    .code-value {
+      font-family: monospace;
+      font-size: 16px;
+      font-weight: 700;
+      color: #0c1d3f;
+      background: #f5f7fb;
+      padding: 8px 14px;
+      border-radius: 8px;
+    }
+  }
+}
+
+.genex-about__empty-coupons {
+  text-align: center;
+  padding: 50px 20px;
+  background: #f9fafc;
+  border-radius: 16px;
+
+  i {
+    font-size: 34px;
+    color: #0989ff;
+    margin-bottom: 14px;
+  }
+
+  p {
+    color: #4a5260;
+    margin: 0;
+  }
+}

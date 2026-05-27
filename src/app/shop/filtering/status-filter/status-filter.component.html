@@ -1,0 +1,23 @@
+<!-- src/app/shop/product/widget/status-filter/status-filter.component.html -->
+<div class="tp-shop-widget-content">
+  <div class="tp-shop-widget-checkbox">
+    <ul class="filter-items filter-checkbox">
+      <li *ngFor="let s of status; let i = index" class="filter-item checkbox">
+        <input
+          type="checkbox"
+          [id]="s.toLowerCase().split(' ').join('-')"
+          [checked]="activeQuery === s.toLowerCase().split(' ').join('-')"
+          (change)="handleStatusRoute(s)"
+        />
+        <label
+          [for]="s.toLowerCase().split(' ').join('-')"
+          [ngClass]="{
+            active: activeQuery === s.toLowerCase().split(' ').join('-')
+          }"
+        >
+          {{ s }}
+        </label>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,280 @@
+<!-- header start -->
+<app-header-four></app-header-four>
+<!-- header end -->
+
+<!-- hero banner start -->
+<app-hero-banner-four></app-hero-banner-four>
+<!-- hero banner end -->
+
+
+<!-- feature area start -->
+<section class="tp-feature-area tp-feature-border-3 tp-feature-style-2 pb-40 pt-45">
+  <div class="container">
+     <div class="row">
+        <div class="col-xl-12">
+           <div class="tp-feature-inner-2 d-flex flex-wrap align-items-center justify-content-between">
+              <div *ngFor="let item of feature_items" class="tp-feature-item-2 d-flex align-items-start mb-40">
+                 <div class="tp-feature-icon-2 mr-10">
+                  <span [innerHTML]="sanitizeHtml(item.icon)"></span>
+                 </div>
+                 <div class="tp-feature-content-2">
+                    <h3 class="tp-feature-title-2">{{item.title}}</h3>
+                    <p>{{item.subtitle}}</p>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+  </div>
+</section>
+<!-- feature area end -->
+
+<!-- banner area start -->
+<app-jewelry-banner></app-jewelry-banner>
+<!-- banner area end -->
+
+<!-- about area start -->
+<section class="tp-about-area pt-125 pb-180">
+  <div class="container">
+     <div class="row">
+        <div class="col-xl-5 col-lg-6">
+           <div class="tp-about-thumb-wrapper p-relative mr-35">
+              <div class="tp-about-thumb m-img">
+                 <img loading="lazy" src="/assets/img/about/about-1.jpg" alt="about-img">
+              </div>
+              <div class="tp-about-thumb-2">
+                 <img loading="lazy" src="/assets/img/about/about-2.jpg" alt="about-img">
+              </div>
+           </div>
+        </div>
+        <div class="col-xl-7 col-lg-6">
+           <div class="tp-about-wrapper pl-80 pt-75 pr-60">
+              <div class="tp-section-title-wrapper-4 mb-50">
+                 <span class="tp-section-title-pre-4">Unity Collection</span>
+                 <h3 class="tp-section-title-4 fz-50">Shop our limited Edition Collaborations</h3>
+              </div>
+              <div class="tp-about-content pl-120">
+                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br> Cras vel mi quam. Fusce vehicula vitae mauris sit amet tempor. Donec consectetur lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.</p>
+                 <div class="tp-about-btn">
+                    <a routerLink="/pages/contact" class="tp-btn">
+                       Contact Us
+                       <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M16 7.49976L1 7.49976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                       </svg>
+                    </a>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+  </div>
+</section>
+<!-- about area end -->
+
+
+<!-- category area start -->
+<section class="tp-category-area pt-115 pb-105 tp-category-plr-85" style="background-color: #EFF1F5">
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+            <div class="tp-section-title-wrapper-4 mb-60 text-center">
+              <span class="tp-section-title-pre-4">Shop by Category</span>
+              <h3 class="tp-section-title-4">Popular on the Shofy store.</h3>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
+            <div class="tp-category-slider-4">
+              <div class="tp-category-slider-active-4 swiper-container mb-70">
+                  <div class="swiper-wrapper">
+                    <div *ngFor="let item of jewelryPopularItem" class="swiper-slide">
+                        <app-jewelry-slider-item [product]="item"></app-jewelry-slider-item>
+                    </div>
+                  </div>
+              </div>
+              <div class="tp-category-swiper-scrollbar tp-swiper-scrollbar"></div>
+            </div>
+        </div>
+      </div>
+  </div>
+</section>
+<!-- category area end -->
+
+ <!-- jewelry all products start -->
+ <app-jewelry-all-products></app-jewelry-all-products>
+ <!-- jewelry all products end -->
+
+
+ <!-- collection area start -->
+ <section class="tp-collection-area">
+  <div class="container-fluid">
+     <div class="tp-collection-inner-4 pl-100 pr-100">
+        <div class="row gx-0">
+           <div class="col-xl-6 col-lg-6">
+              <div class="tp-collection-thumb-wrapper-4 p-relative fix z-index-1" >
+                 <div class="tp-collection-thumb-4 include-bg black-bg" style="background-image: url(/assets/img/product/collection/4/collection-1.jpg);"></div>
+                 <span class="tp-collection-thumb-info-4">WITH NEW LOOK & NEW COLLECTION</span>
+
+                 <div class="tp-collection-hotspot-item tp-collection-hotspot-1">
+                    <span class="tp-hotspot tp-pulse-border ">
+                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M7 1V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M1 7H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                       </svg>
+                    </span>
+                    <div class="tp-collection-hotspot-content">
+                       <h3 class="tp-collection-hotspot-title">Skincare Product</h3>
+                       <p>Lorem ipsum dolor sit amet consectetur.</p>
+                    </div>
+                 </div>
+
+                 <div class="tp-collection-hotspot-item tp-collection-hotspot-2">
+                    <span class="tp-hotspot tp-pulse-border ">
+                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M7 1V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M1 7H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                       </svg>
+                    </span>
+                    <div class="tp-collection-hotspot-content on-top">
+                       <h3 class="tp-collection-hotspot-title">Skincare Product</h3>
+                       <p>Lorem ipsum dolor sit amet consectetur.</p>
+                    </div>
+                 </div>
+
+              </div>
+           </div>
+           <div class="col-xl-6 col-lg-6">
+              <div class="tp-collection-wrapper-4 p-relative pt-90 pb-95" style="background-color: #F6F6F6;">
+                 <span class="tp-collection-side-text">
+                    <img loading="lazy" src="/assets/img/product/collection/4/side-text.png" alt="">
+                 </span>
+                 <div class="row justify-content-center">
+                    <div class="col-xl-6 col-lg-8">
+                       <div class="tp-collection-item-4 text-center">
+                          <span class="tp-collection-subtitle-4">BUILD YOUR OWN SETS</span>
+                          <div class="tp-collection-thumb-banner-4 m-img">
+                             <a routerLink="/shop">
+                                <img loading="lazy" src="/assets/img/product/collection/4/collection-sm-1.jpg" alt="">
+                             </a>
+                          </div>
+                          <div class="tp-collection-content-4">
+                             <h3 class="tp-collection-title-4">
+                                <a routerLink="/shop">Our finest jewelry</a>
+                             </h3>
+                             <div class="tp-collection-btn-4">
+                                <a routerLink="/shop" class="tp-link-btn-line-2">
+                                   Shop this collection
+                                   <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M1 1L6.02116 5.99958L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                   </svg>
+                                </a>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+  </div>
+</section>
+<!-- collection area end -->
+
+
+<!-- top sells product area start -->
+<section class="tp-best-area pt-115">
+    <div class="container">
+       <div class="row">
+          <div class="col-xl-12">
+             <div class="tp-section-title-wrapper-4 mb-50 text-center">
+                <span class="tp-section-title-pre-4">Best Seller This Week’s</span>
+                <h3 class="tp-section-title-4">Top Sellers In Dress for You</h3>
+             </div>
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-xl-12">
+             <div class="tp-best-slider">
+                <div class="tp-best-slider-active swiper-container mb-10">
+                   <div class="swiper-wrapper">
+                      <div *ngFor="let item of jewelryTopSellsItems" class="tp-best-item-4 swiper-slide">
+                         <app-product-item-four [product]="item"></app-product-item-four>
+                      </div>
+                   </div>
+                </div>
+                <div class="tp-best-swiper-scrollbar tp-swiper-scrollbar"></div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+ <!-- top sells product area end -->
+
+  <!-- brand area start -->
+  <section class="tp-brand-area pt-120">
+    <div class="container">
+       <div class="row">
+          <div class="col-xl-12">
+             <div class="tp-brand-slider p-relative">
+                <div class="tp-brand-slider-active swiper-container">
+                   <div class="swiper-wrapper">
+                      <div *ngFor="let logo of brand_data" class="tp-brand-item swiper-slide text-center">
+                         <a routerLink="/home/jewelry">
+                            <img loading="lazy" [src]="logo" alt="logo">
+                         </a>
+                      </div>
+                   </div>
+                </div>
+                <div class="tp-brand-slider-arrow">
+                   <button class="tp-brand-slider-button-prev">
+                      <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                   </button>
+                   <button class="tp-brand-slider-button-next">
+                      <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M1 1L7 7L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                   </button>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+ <!-- brand area end -->
+
+ <!-- instagram area start -->
+ <section class="tp-instagram-area tp-instagram-style-4 pt-110 pb-10">
+  <div class="container-fluid pl-20 pr-20">
+     <div class="row">
+        <div class="col-xl-12">
+           <div class="tp-section-title-wrapper-4 mb-50 text-center">
+              <h3 class="tp-section-title-4">Trends on image feed</h3>
+              <p>After many months design and development of a modern online retailer</p>
+           </div>
+        </div>
+     </div>
+     <div class="row row-cols-lg-6 row-cols-sm-2 row-cols-1 gx-2 gy-2 gy-lg-0">
+        <div *ngFor="let item of instagram_data" class="col">
+           <div class="tp-instagram-item-2 w-img">
+              <img loading="lazy" [src]="item.img" alt="">
+              <div class="tp-instagram-icon-2">
+                 <a [href]="item.link" target="_blank" class="popup-image">
+                  <i class="fa-brands fa-instagram"></i>
+                </a>
+              </div>
+           </div>
+        </div>
+     </div>
+  </div>
+</section>
+<!-- instagram area end -->
+
+
+<!-- footer start -->
+<app-footer-two></app-footer-two>
+<!-- footer end -->

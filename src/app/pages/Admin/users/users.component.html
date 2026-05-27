@@ -1,0 +1,88 @@
+<div class="users-container">
+  <div class="page-header">
+    <h1 class="page-title">Users</h1>
+    <p class="page-subtitle">Manage customer details efficiently</p>
+    <button class="export-button" (click)="exportToExcel()">
+      <i class="fas fa-file-excel" style="margin-right: 8px;"></i>
+      Export to Excel
+    </button>
+  </div>
+
+  <div class="users-table" *ngIf="users.length > 0; else noUsers">
+    <table>
+      <thead>
+        <tr>
+          <th>SN</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Phone Number</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index">
+          <td>{{ (pageNumber - 1) * pageSize + i + 1 }}</td>
+          <td>{{ user.firstname }}</td>
+          <td>{{ user.lastname }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.address }}</td>
+          <td>{{ user.phoneNumber }}</td>
+          <td [ngClass]="{'status-active': !user.isBanned, 'status-banned': user.isBanned}">
+            {{ user.isBanned ? 'Disabled' : 'Active' }}
+          </td>
+          <td>
+            <button *ngIf="!user.isBanned"
+                    class="action-button soft-delete"
+                    (click)="openConfirmModal(user, 'disable')">
+              Disable
+            </button>
+            <button *ngIf="user.isBanned"
+                    class="action-button restore"
+                    (click)="openConfirmModal(user, 'restore')">
+              Restore
+            </button>
+            <button class="action-button permanent-delete"
+                    (click)="openConfirmModal(user, 'permanent')">
+              Permanent Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noUsers>
+    <div class="no-users">No users found.</div>
+  </ng-template>
+
+  <div class="pagination" *ngIf="totalCount > pageSize">
+    <button [disabled]="pageNumber === 1" (click)="changePage(pageNumber - 1)">
+      <i class="fa fa-chevron-left"></i>
+    </button>
+    <span class="page-info">{{ pageNumber }} / {{ totalPages }}</span>
+    <button [disabled]="pageNumber === totalPages" (click)="changePage(pageNumber + 1)">
+      <i class="fa fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- Unified confirmation modal -->
+  <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ modalTitle() }}</h2>
+      </div>
+      <div class="modal-body">
+        <p>{{ modalMessage() }}</p>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-button cancel" (click)="closeModal()" [disabled]="isSubmitting">Cancel</button>
+        <button class="modal-button" [ngClass]="confirmClass()" (click)="confirmAction()" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Working…' : confirmLabel() }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

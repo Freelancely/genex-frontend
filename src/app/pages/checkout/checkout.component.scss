@@ -1,0 +1,52 @@
+.white-bg {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tp-checkout-bill-area, .tp-checkout-place {
+  padding: 20px;
+}
+
+.billing-info-item {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.billing-info-item.selected {
+  background-color: #e9ecef;
+  border-color: #007bff;
+}
+
+.tp-checkout-bill-form .tp-checkout-input {
+  margin-bottom: 15px;
+}
+
+.tp-checkout-bill-form .form-control {
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 8px;
+  width: 100%;
+}
+
+.tp-checkout-bill-form .tp-checkout-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tp-checkout-bill-form .tp-checkout-btn:hover {
+  background-color: #0056b3;
+}
+
+.tp-checkout-btn.btn-secondary {
+  background-color: #6c757d;
+}
+
+.tp-checkout-btn.btn-secondary:hover {
+  background-color: #5a6268;
+}

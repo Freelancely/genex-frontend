@@ -1,0 +1,93 @@
+<app-header-two [style_2]="true"></app-header-two>
+
+<app-breadcrumb-one title="Shipping Policy" subtitle="Shipping"></app-breadcrumb-one>
+
+<main class="info-page">
+  <section class="info-page__intro">
+    <div class="container">
+      <span class="eyebrow">Delivery</span>
+      <h1>Shipping Policy</h1>
+      <p class="lede">
+        Refrigerators and washing machines are heavy, fragile, and worth protecting in transit.
+        Here's how we get your appliance from our warehouse to your door — anywhere in Nepal.
+      </p>
+      <span class="updated">Last updated: {{ lastUpdated }}</span>
+    </div>
+  </section>
+
+  <section class="info-page__body">
+    <div class="container">
+
+      <section>
+        <h2>1. Delivery zones</h2>
+        <ul>
+          <li><strong>Kathmandu Valley</strong> (Kathmandu, Lalitpur, Bhaktapur) — free delivery on all appliances above NPR 25,000.</li>
+          <li><strong>Major cities outside the valley</strong> (Pokhara, Chitwan, Biratnagar, Butwal, Nepalgunj, Birgunj, Dharan, Hetauda, Itahari, Janakpur) — delivery charge calculated at checkout based on appliance size.</li>
+          <li><strong>Other districts</strong> — delivery available via partnered logistics. We'll confirm cost and time once you place the order.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>2. Delivery time</h2>
+        <ul>
+          <li><strong>Kathmandu Valley:</strong> 1–2 business days</li>
+          <li><strong>Major cities:</strong> 3–5 business days</li>
+          <li><strong>Other districts:</strong> 5–10 business days</li>
+        </ul>
+        <p>Orders placed on weekends or public holidays are processed the next working day.</p>
+      </section>
+
+      <section>
+        <h2>3. Delivery charges</h2>
+        <p>Delivery cost depends on the appliance size, weight, and your district. The exact amount is shown at checkout before payment — no surprises.</p>
+        <div class="info-callout">
+          <strong>Free delivery promo</strong>
+          <p>All orders above NPR 25,000 inside Kathmandu Valley ship free. The discount is applied automatically at checkout.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>4. What we deliver</h2>
+        <p>Our courier brings your appliance to your doorstep. They will:</p>
+        <ul>
+          <li>Carry the product to your ground-floor entrance.</li>
+          <li>Unbox it with you and confirm there's no physical damage.</li>
+          <li>Hand you the original invoice and warranty card.</li>
+        </ul>
+        <p>Upper-floor delivery, installation, and old-unit pick-up are <strong>not included by default</strong>. If you need any of these, please mention it in your order notes and we'll quote the extra charge.</p>
+      </section>
+
+      <section>
+        <h2>5. Tracking your order</h2>
+        <p>You can see the status of every order (placed, packed, dispatched, delivered) on your <a routerLink="/shop/order">order history page</a>. We also send SMS updates to the phone number on the order.</p>
+      </section>
+
+      <section>
+        <h2>6. Receiving the appliance</h2>
+        <ul>
+          <li>Please be available at the delivery address during business hours on the scheduled day.</li>
+          <li><strong>Inspect the unit</strong> before signing the delivery acknowledgement — any transit damage must be reported then and there.</li>
+          <li>If you're not home and the courier can't reach you after two attempts, the order returns to our warehouse. Re-delivery charges may apply.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>7. Damaged or missing items</h2>
+        <p>
+          If your appliance arrives damaged or with missing parts, contact us within <strong>24 hours of delivery</strong>
+          with photos. We will arrange a replacement or full refund — see the
+          <a routerLink="/pages/returns">Returns Policy</a> for details.
+        </p>
+      </section>
+
+      <section class="contact-card">
+        <h3>Need a delivery update?</h3>
+        <p>Email <a href="mailto:info@pratibuddha.com">info&#64;pratibuddha.com</a></p>
+        <p>Or call <a href="tel:+9779876543210">+977 9876543210</a> (Sun–Fri, 10am–6pm)</p>
+      </section>
+
+    </div>
+  </section>
+</main>
+
+<app-footer-one [primary_style]="true"></app-footer-one>

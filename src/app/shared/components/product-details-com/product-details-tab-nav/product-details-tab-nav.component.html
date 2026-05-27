@@ -42,10 +42,11 @@
                   <div class="rating-stars">
                     <span
                       *ngFor="let i of [1, 2, 3, 4, 5]"
-                      [ngClass]="{
-                        'fas fa-star filled': i <= averageRating,
-                        'far fa-star empty': i > averageRating
-                      }"
+                      class="fa-star"
+                      [class.fas]="i <= averageRating"
+                      [class.far]="i > averageRating"
+                      [class.filled]="i <= averageRating"
+                      [class.empty]="i > averageRating"
                     ></span>
                   </div>
                   <span class="rating-text">{{ averageRating.toFixed(1) }} out of 5</span>
@@ -71,10 +72,11 @@
                             <div class="review-rating">
                               <span
                                 *ngFor="let star of [1, 2, 3, 4, 5]"
-                                [ngClass]="{
-                                  'fas fa-star filled': star <= item.rating,
-                                  'far fa-star empty': star > item.rating
-                                }"
+                                class="fa-star"
+                                [class.fas]="star <= item.rating"
+                                [class.far]="star > item.rating"
+                                [class.filled]="star <= item.rating"
+                                [class.empty]="star > item.rating"
                               ></span>
                             </div>
                             <span class="review-date">{{ item.date | date: 'mediumDate' }}</span>
@@ -150,10 +152,6 @@
                   Write a Review
                 </h3>
                 <p class="review-form-subtitle">Share your experience to help others make informed decisions</p>
-                <p class="required-note">
-                  <i class="fas fa-info-circle me-2"></i>
-                  Your email address will not be published. Required fields are marked *
-                </p>
               </div>
               <app-shop-details-form
                 [productId]="product.id"

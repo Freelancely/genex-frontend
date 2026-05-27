@@ -12,7 +12,9 @@
           <th>Order Number</th>
           <th>Customer</th>
           <th>Date</th>
-          <th>Amount</th>
+          <th>Subtotal</th>
+          <th>Discount</th>
+          <th>Total</th>
           <th>Status</th>
           <th>Method</th>
           <th>Payment Status</th>
@@ -33,7 +35,17 @@
               </button>
             </div>
           </td>
-          <td>{{ order.orderDateTime | date: 'short' }}</td>
+          <td>{{ order.orderDateTime }}</td>
+          <td>Nrs. {{ order.amountBeforeDiscount | number: '1.2-2' }}</td>
+          <td>
+            <ng-container *ngIf="(order.amountBeforeDiscount - order.amountAfterDiscount) > 0; else noDiscount">
+              <span>Nrs. {{ (order.amountBeforeDiscount - order.amountAfterDiscount) | number: '1.2-2' }}</span>
+              <span *ngIf="order.appliedCouponCode" class="coupon-badge">
+                {{ order.appliedCouponCode }}<span *ngIf="order.couponDiscountPercent != null"> ({{ order.couponDiscountPercent }}%)</span>
+              </span>
+            </ng-container>
+            <ng-template #noDiscount><span class="muted">—</span></ng-template>
+          </td>
           <td>Nrs. {{ order.amountAfterDiscount | number: '1.2-2' }}</td>
           <td>
             <span class="status-badge" [ngClass]="getStatusClass(order.status)">

@@ -20,8 +20,6 @@ export class ShopDetailsFormComponent implements OnInit {
 
   ngOnInit() {
     this.shopReviewForm = new FormGroup({
-      name: new FormControl(null, Validators.required),
-      email: new FormControl(null, [Validators.required, Validators.email]),
       review: new FormControl(null, Validators.required)
     });
   }
@@ -46,7 +44,5 @@ export class ShopDetailsFormComponent implements OnInit {
     setTimeout(() => {}, 0); // Force change detection
   }
 
-  get name() { return this.shopReviewForm.get('name'); }
-  get email() { return this.shopReviewForm.get('email'); }
   get review() { return this.shopReviewForm.get('review'); }
 }
